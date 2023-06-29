@@ -12,10 +12,10 @@ const Hero = () => {
   };
   return (
     <div className="hero">
-      <div className="flex-1 pt-20 sm:pt-36 padding-x">
-        <h1 className="hero__title">
+      <div className="flex-1 pt-20 padding-x ">
+        <h1 className="hero__title pb-5">
         Find the nearest hospital to you and make an appointment        </h1>
-        <p className="hero__subtitle">
+        <p className="hero__subtitle pb-5">
         Discover Your Perfect Care: Find Your Hospital, Anytime, Anywhere!
         </p>
 
@@ -27,9 +27,9 @@ const Hero = () => {
 
         />
       </div>
-      <div className="hero__image-container">
+      <div className="hero__image-container pt-20">
         <div className="hero__image">
-          <Image src="/Rectangle 1.png" alt="hero image" fill className="object-contain" />
+          <Image src="/Rectangle 1.png" alt="hero image"  height={600} width={700} className="object-contain" />
         </div>
 
       </div>
