@@ -1,6 +1,8 @@
 "use client";
+import { ArrowBigRight, ArrowRight, } from "lucide-react";
 import Image from "next/image";
 import CustomButton from "./CustomButton";
+import { Button } from "./ui/button";
 
 const Hero = () => {
   const handleScroll = () => {
@@ -11,27 +13,30 @@ const Hero = () => {
     }
   };
   return (
-    <div className="hero">
-      <div className="flex-1 pt-20 padding-x ">
-        <h1 className="hero__title pb-5">
-        Find the nearest hospital to you and make an appointment        </h1>
-        <p className="hero__subtitle pb-5">
-        Discover Your Perfect Care: Find Your Hospital, Anytime, Anywhere!
+    <div className="hero bg-gray-200 ">
+      <div className="flex-1 pt-20 padding-x w-full mr-[xl]">
+        <h1 className="hero__title pb-5 text-blue-900">
+          Find the nearest hospital to you and make an appointment{" "}
+        </h1>
+        <p className="hero__subtitle pb-5 font-semibold">
+          Discover Your Perfect Care: Find Your Hospital, Anytime, Anywhere!
         </p>
 
-        <CustomButton
-          btnType="button"
-          title="Get Started"
-          containerStyles="bg-blue-900 text-white rounded-full mt-10"
-          handleClick={handleScroll}
-
-        />
+        <Button className="bg-blue-900 hover:bg-blue-500 rounded-lg text-white py-8 xl:px-12 xl:text-2xl text-lg font-bold my-4">
+          GET STARTED
+          <ArrowRight className="ml-4 lg:h-8 w-12" />
+        </Button>
       </div>
-      <div className="hero__image-container pt-20">
-        <div className="hero__image">
-          <Image src="/Rectangle 1.png" alt="hero image"  height={600} width={700} className="object-contain" />
+      <div className="hero__image-container lg:pt-20 pt-10 mb-[-500px] xl:mb-[-10px]">
+        <div className="hero__image hidden xl:block ">
+          <Image
+            src="/Rectangle 1.png"
+            alt="hero image"
+            height={300}
+            width={400}
+            className="object-contain"
+          />
         </div>
-
       </div>
     </div>
   );
