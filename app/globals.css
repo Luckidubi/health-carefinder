@@ -57,3 +57,4 @@
 .hero__image {
   @apply relative xl:w-full w-[90%] xl:h-full h-[590px] z-0;
 }
+

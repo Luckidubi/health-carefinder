@@ -20,3 +20,29 @@ export const services = [
     value: "Share the list of hospitals with others. ",
   },
 ];
+
+export const guides = [
+  {
+    icon: "/Ellipse 9.png",
+    title: "Find Hospital",
+    value:
+      "Find the best hospitals and doctors near you, our efficient search engine provides you with the best results.",
+  },
+  {
+    icon: "/Ellipse 10.png",
+    title: "Save or share hospital",
+    value:
+      "Carefinder allows users to save and share the list of hospitals with others. Users can share the information via email or by generating a shareable link",
+  },
+  {
+    icon: "/Ellipse 11.png",
+    title: "Book Appointment",
+    value: "Book appointments easily by inputting correct details",
+  },
+  {
+    icon: "/Ellipse 12.png",
+    title: "Make a visit",
+    value:
+      "Appointment confirmed, then make a visit to your selected hospital or doctor",
+  },
+];

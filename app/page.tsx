@@ -3,7 +3,6 @@ import Hero from "@/components/Hero";
 import HowItWorks from "@/components/HowItWorks";
 import SearchInput from "@/components/SearchInput";
 import Services from "@/components/Services";
-import Image from "next/image";
 
 export default function Home() {
   return (
@@ -24,6 +23,9 @@ export default function Home() {
         <Services />
       </div>
       <HowItWorks/>
+      <div>
+        
+      </div>
     </main>
   );
 }
