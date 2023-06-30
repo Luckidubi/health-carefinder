@@ -8,3 +8,9 @@ export interface CustomButtonProps {
   rightIcon?: string;
   isDisabled?: boolean
 }
+
+export interface ServiceCardProps{
+  icon: string
+  title: string
+  value: string
+}
