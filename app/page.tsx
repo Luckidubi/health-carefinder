@@ -1,6 +1,7 @@
 import About from "@/components/About";
 import Hero from "@/components/Hero";
 import SearchInput from "@/components/SearchInput";
+import Services from "@/components/Services";
 import Image from "next/image";
 
 export default function Home() {
@@ -17,6 +18,9 @@ export default function Home() {
       </div>
       <div id="#About" className="padding-x padding-y bg-white max-width">
         <About />
+      </div>
+      <div className="pt-20">
+        <Services />
       </div>
     </main>
   );
