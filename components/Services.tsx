@@ -6,7 +6,7 @@ import React from "react";
 export const ServiceCard = ({icon, title, value}: ServiceCardProps) => {
   return (
     <>
-      <div className="flex flex-col flex-center gap-6 text-center shadow-md text-slate-500 shadow-slate-200  bg-gray-200 rounded-xl w-[345px] h-[275px]">
+      <div className="flex flex-col flex-center gap-6 space-x-6 text-center shadow-md text-slate-500 shadow-slate-200  bg-gray-200 rounded-xl md:w-[300px] xl:w-[345px] w-[300px] h-[275px]">
         {/*  <!-- Icon --> */}
         <figure className="p-6 pb-0 w-20 h-20 bg-blue-900 rounded-full">
           <Image src={icon} alt="service icon" width={56} height={56} />
@@ -31,7 +31,7 @@ const Services = () => {
         {
             services.map((item)=>(
                <ServiceCard
-
+key={item.title}
                icon={item.icon}
                title={item.title}
                value={item.value}
