@@ -27,7 +27,7 @@ export const ServiceCard = ({ icon, title, value }: ServiceCardProps) => {
 const Services = () => {
   return (
     <section className="max-width padding-x padding y">
-      <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 md:grid-cols-2 grid-cols-1 w-full gap-8 pt-14;">
+      <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 md:grid-cols-2 grid-cols-1 w-full gap-8 pt-14 justify-items-center">
         {services.map((item) => (
           <ServiceCard
             key={item.title}

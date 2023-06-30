@@ -17,14 +17,14 @@ export default function Home() {
           <SearchInput />
         </div>
       </div>
-      <div id="#About" className="padding-x padding-y bg-white max-width">
+      <div id="About" className="padding-x padding-y bg-white max-width">
         <About />
       </div>
       <div className="pt-20">
         <Services />
       </div>
       <HowItWorks />
-      <div className="pt-20">
+      <div className="py-20">
         <Testimonials />
       </div>
     </main>
