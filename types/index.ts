@@ -14,3 +14,10 @@ export interface ServiceCardProps{
   title: string
   value: string
 }
+
+export interface TestimonialCardProps{
+  value: string
+  rating: string
+  photo: string
+  name: string
+}

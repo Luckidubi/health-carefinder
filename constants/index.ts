@@ -46,3 +46,27 @@ export const guides = [
       "Appointment confirmed, then make a visit to your selected hospital or doctor",
   },
 ];
+
+export const testimonials = [
+  {
+    value:
+      "Finding the right hospital has never been easier! With this website, I was able to locate a nearby hospital quickly and efficiently. The search feature is user-friendly, and it provided me with all the essential information I needed. Highly recommended",
+    rating: "/Group 55.svg",
+    photo: "/Ellipse 13.png",
+    name: "Sarah M",
+  },
+  {
+    value:
+      "I can’t express how grateful i am for carefinder website. When i needed urgent medical care while travelling, it helped me locate the nearest hospital in a matter of  seconds. The accurate results and detailed directions saved me valuable time and ensured i received the care i needed",
+    rating: "/Group 55.svg",
+    photo: "/Ellipse 13 (1).png",
+    name: "John Doe",
+  },
+  {
+    value:
+      "I recently moved to a new city and had no idea where to go for medical assistance, my friend shared me some hospital details using the carefinder website. It made my life easier, i was able to fine reputable hospitals near me effortlessly. The website’s is user friendly interface and comprehnsive search gave me peace of mind. I highly recommend.",
+    rating: "/Group 55.svg",
+    photo: "/Ellipse 16.png",
+    name: "Emily T.",
+  },
+];

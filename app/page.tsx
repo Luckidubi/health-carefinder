@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import HowItWorks from "@/components/HowItWorks";
 import SearchInput from "@/components/SearchInput";
 import Services from "@/components/Services";
+import Testimonials from "@/components/Testimonials";
 
 export default function Home() {
   return (
@@ -22,9 +23,9 @@ export default function Home() {
       <div className="pt-20">
         <Services />
       </div>
-      <HowItWorks/>
-      <div>
-        
+      <HowItWorks />
+      <div className="pt-20">
+        <Testimonials />
       </div>
     </main>
   );
