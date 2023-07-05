@@ -70,3 +70,26 @@ export const testimonials = [
     name: "Emily T.",
   },
 ];
+
+export const hospitals = [
+  {
+    photo: "/Rectangle 57.png",
+    name: "Eve Foundation Hospital ",
+    address: "32, Aldmiralty way",
+  },
+  {
+    photo: "/Rectangle 58.png",
+    name: "Nigerian Police Hospital ",
+    address: "Falomo",
+  },
+  {
+    photo: "/Rectangle 59.png",
+    name: "Gold cross Hospital ",
+    address: "Bourdillon Road",
+  },
+  {
+    photo: "/Rectangle 60.png",
+    name: "Mayo Clinic",
+    address: " 12, Femi Okunnu Road",
+  },
+];

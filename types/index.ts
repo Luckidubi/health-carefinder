@@ -21,3 +21,9 @@ export interface TestimonialCardProps{
   photo: string
   name: string
 }
+
+export interface HospitalCardProps{
+  photo: string
+  name: string
+  address: string
+}
