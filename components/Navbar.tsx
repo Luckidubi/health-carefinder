@@ -90,7 +90,7 @@ export default function Navbar() {
               <li role="none" className="flex items-stretch">
                 <Link
                   className="flex lg:text-[20px] font-medium leading-10 items-center gap-2 py-4 text-black transition-colors duration-300 hover:text-blue-900 focus:bg-blue-50 focus:outline-none focus-visible:outline-none lg:px-8"
-                  href="javascript:void(0)"
+                  href="/find-hospital"
                 >
                   <span>Find Hospital</span>
                 </Link>

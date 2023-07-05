@@ -4,7 +4,7 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <footer className="w-full text-slate-500 max-width">
+    <footer className="w-full text-slate-500">
       {/*      <!-- Main footer --> */}
       <div className="border-t border-slate-200 bg-gray-200 pt-16 pb-12 text-sm padding-x">
         <div className="container mx-auto px-6">
