@@ -54,6 +54,7 @@ const Testimonials = () => {
          {
             testimonials.map((item)=>(
                 <TestimonialCard
+                key={item.name}
                 value={item.value}
                 rating={item.rating}
                 photo={item.photo}
