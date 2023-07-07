@@ -61,3 +61,13 @@
 .view-hospital__card-div {
   @apply relative z-10 bg-neutral-100 rounded-xl border-stone-700 text-center text-black text-[18px]  font-normal leading-10 w-[300px] max-w-[413px]
 }
+
+.nav-links{
+  @apply flex flex-col space-y-6 border-r border-gray-200
+}
+.nav-links a {
+  @apply hover:text-blue-900 transition-all duration-300 ease-in-out text-[18px] rounded-md px-6
+}
+.sidebar-link {
+  @apply text-black font-bold leading-loose
+}
