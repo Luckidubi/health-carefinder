@@ -107,7 +107,7 @@ export default function Navbar() {
               </Link>
               </Button>
               <Link
-                href="#"
+                href="/profile"
                 className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-white"
               >
                 <Avatar>

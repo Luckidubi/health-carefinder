@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const SearchInput = () => {
   return (
-    <div className="relative max-w-[664px] ">
+    <div className="relative max-w-[664px]">
       <input
         className="py-2 pr-8 pl-10  w-full h-12 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-slate-500 text-center tracking-wide text-stone-500 text-[14px] font-medium leading-snug"
         type="text"
