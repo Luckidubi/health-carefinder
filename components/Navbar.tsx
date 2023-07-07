@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import CustomButton from "./CustomButton";
+import { Button } from "./ui/button";
 
 export default function Navbar() {
   const [isToggleOpen, setIsToggleOpen] = useState(false);
@@ -101,11 +101,11 @@ export default function Navbar() {
 
             <div className="ml-auto flex items-center px-6 lg:ml-0 lg:p-0">
               {/*        <!-- Avatar --> */}
-              <CustomButton
-                  title="Login"
-                  btnType="button"
-                  containerStyles="bg-blue-900 text-white rounded-xl"
-                />
+              <Button className="bg-blue-900 hover:bg-blue-500 text-white" asChild>
+              <Link href="/login">
+                Login
+              </Link>
+              </Button>
               <Link
                 href="#"
                 className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-white"

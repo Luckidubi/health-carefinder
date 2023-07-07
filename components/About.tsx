@@ -27,7 +27,7 @@ const About = () => {
           resources.
         </p>
 
-        <Button className="bg-blue-900 hover:bg-blue-500 rounded-lg text-white py-8 xl:px-12 xl:text-2xl text-lg font-bold my-4">
+        <Button className="custom-btn hover:bg-blue-500">
          OUR SERVICES
           <ArrowRight className="ml-4 lg:h-8 w-12" />
         </Button>
