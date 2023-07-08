@@ -83,8 +83,10 @@ const LoginForm = () => {
                 <FormLabel>Password</FormLabel>
                 <FormControl>
                   <Input
-                  type="password"
-                   placeholder="Enter Password" {...field} />
+                    type="password"
+                    placeholder="Enter Password"
+                    {...field}
+                  />
                 </FormControl>
 
                 <FormMessage />
@@ -99,7 +101,7 @@ const LoginForm = () => {
               Login
             </Button>
             <div className="text-center space-y-2">
-              <p>OR</p>
+              <p className="text-black font-bold leading-9">OR</p>
               <p>Login using</p>
               <div className="flex flex-between py-4">
                 <Image

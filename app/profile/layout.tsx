@@ -2,7 +2,6 @@ import SearchInput from "@/components/SearchInput";
 import Sidebar from "@/components/Sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-import Link from "next/link";
 
 export default function ProfileLayout({
   children,
