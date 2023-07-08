@@ -1,6 +1,6 @@
 import ProfileForm from '@/components/ProfileForm';
 
-const page = () => {
+const Profile = () => {
   return (
     <div className="flex flex-col py-8 flex-center">
       <h2 className="text-blue-900 text-[28px] font-bold leading-10 uppercase">
@@ -14,4 +14,4 @@ const page = () => {
   );
 }
 
-export default page
+export default Profile

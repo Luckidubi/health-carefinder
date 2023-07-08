@@ -71,3 +71,7 @@
 .sidebar-link {
   @apply text-black font-bold leading-loose
 }
+
+label {
+  @apply text-black text-[25px] font-medium leading-9
+}

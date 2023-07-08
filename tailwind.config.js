@@ -37,7 +37,9 @@ module.exports = {
       backgroundImage: {
 
         'hero-bg': "url('/Rectangle 1.png')",
-        'guide-bg': "url('/ellipse.svg')"
+        'guide-bg': "url('/ellipse.svg')",
+        'login-bg-1': "url('/Group 79.png')",
+        'login-bg-2': "url('/Group 80.png')"
       }
     },
   },
