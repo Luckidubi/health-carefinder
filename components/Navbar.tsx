@@ -9,6 +9,14 @@ import { Button } from "./ui/button";
 export default function Navbar() {
   const [isToggleOpen, setIsToggleOpen] = useState(false);
 
+   const handleScroll = () => {
+     const nextSection = document.getElementById("about");
+
+     if (nextSection) {
+       nextSection.scrollIntoView({ behavior: "smooth" });
+     }
+   };
+
   return (
     <>
       {/*<!-- Header --> */}
@@ -20,7 +28,7 @@ export default function Navbar() {
             role="navigation"
           >
             {/*      <!-- Brand logo --> */}
-            {/* make the logo and text be on same line */}
+
             <Link href="/" className="flex items-center">
               <Image
                 src="/hospital.svg"
@@ -29,7 +37,7 @@ export default function Navbar() {
                 height={40}
                 className="object-contain"
               />
-              <span className="text-blue-900 hidden sm:flex text-[35px] font-bold">
+              <span className="text-blue-900 hidden sm:flex text-[30px] font-bold">
                 CareFinder
               </span>
             </Link>
@@ -74,7 +82,7 @@ export default function Navbar() {
               <li role="none" className="flex items-stretch">
                 <Link
                   className="flex lg:text-[20px] font-medium leading-10 items-center gap-2 py-4 text-black transition-colors duration-300 hover:text-blue-900 focus:bg-blue-50 focus:outline-none focus-visible:outline-none lg:px-8"
-                  href="javascript:void(0)"
+                  href="/"
                 >
                   <span>Home</span>
                 </Link>
@@ -82,7 +90,8 @@ export default function Navbar() {
               <li role="none" className="flex items-stretch">
                 <Link
                   className="flex lg:text-[20px] font-medium leading-10 items-center gap-2 py-4 text-black transition-colors duration-300 hover:text-blue-900 focus:bg-blue-50 focus:outline-none focus-visible:outline-none lg:px-8"
-                  href="javascript:void(0)"
+                  href=""
+                  onClick={handleScroll}
                 >
                   <span>About</span>
                 </Link>

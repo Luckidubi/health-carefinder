@@ -1,9 +1,16 @@
+"use client";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import { Button } from "./ui/button";
 
 const About = () => {
+  const handleScroll = () => {
+    const nextSection = document.getElementById("services");
+    if (nextSection) {
+      nextSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   return (
     <section className="flex flex-col xl:flex-row gap-4 md:pt-20">
       <div className="flex-[1.5] w-[80%]">
@@ -27,8 +34,8 @@ const About = () => {
           resources.
         </p>
 
-        <Button className="custom-btn hover:bg-blue-500">
-         OUR SERVICES
+        <Button className="custom-btn hover:bg-blue-500" onClick={handleScroll}>
+          OUR SERVICES
           <ArrowRight className="ml-4 lg:h-8 w-12" />
         </Button>
       </div>

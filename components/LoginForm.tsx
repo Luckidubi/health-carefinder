@@ -19,7 +19,8 @@ import { useToast } from "./ui/use-toast";
 
 const formSchema = z.object({
   email: z.string().email({
-     message: "Invalid email address" }),
+    message: "Invalid email address",
+  }),
 
   password: z.string().min(6, {
     message: "Password must not be less than 6 characters",
@@ -121,7 +122,7 @@ const LoginForm = () => {
               </div>
             </div>
             <p>
-              Don't have an account?{" "}
+              Don&#39;t have an account?
               <Link
                 className="italic text-blue-900 pl-1 hover:underline font-medium leading-loose"
                 href="/signup"
