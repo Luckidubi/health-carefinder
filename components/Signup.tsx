@@ -9,7 +9,17 @@ const Signup = () => {
           <SignupForm />
         </div>
       </div>
-      <div className="col-span-4 lg:col-span-6 bg-login-bg-2 bg-scroll bg-cover bg-no-repeat py-20 hidden lg:block"></div>
+      <div className="col-span-4 lg:col-span-6 bg-login-bg-2 bg-scroll bg-cover bg-no-repeat py-20 hidden lg:block space-y-4">
+        <h3 className="text-blue-900 text-[50px] font-bold leading-10 text-center">
+          CareFinder
+        </h3>
+        <h4 className="text-center text-black text-[30px] font-bold leading-10">
+          Join Our Community
+        </h4>
+        <p className="text-center text-zinc-800 text-[18px] font-bold leading-10">
+          Enjoy seamless access to medical services.
+        </p>
+      </div>
     </div>
   );
 };
