@@ -2,12 +2,15 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 
 export default function Navbar() {
   const [isToggleOpen, setIsToggleOpen] = useState(false);
+   const pathname = usePathname();
+
 
    const handleScroll = () => {
      const nextSection = document.getElementById("about");
@@ -87,7 +90,7 @@ export default function Navbar() {
                   <span>Home</span>
                 </Link>
               </li>
-              <li role="none" className="flex items-stretch">
+              <li role="none" className={`items-stretch ${pathname === '/' ? 'flex': 'hidden' }`}>
                 <Link
                   className="flex lg:text-[20px] font-medium leading-10 items-center gap-2 py-4 text-black transition-colors duration-300 hover:text-blue-900 focus:bg-blue-50 focus:outline-none focus-visible:outline-none lg:px-8"
                   href=""

@@ -1,7 +1,10 @@
 "use client";
+
+import { createUserWithEmailAndPassword, updateProfile } from "@firebase/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import Link from "next/link";
+import { useAuth, useFirestore, useFirestoreCollection } from "reactfire";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "./ui/button";
@@ -15,6 +18,9 @@ import {
 } from "./ui/form";
 import { Input } from "./ui/input";
 import { useToast } from "./ui/use-toast";
+import { collection } from "firebase/firestore";
+import { SignUpWithEmail } from "@/lib/firebase/auth/auth";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z
@@ -32,10 +38,12 @@ const formSchema = z.object({
   }),
 });
 const SignupForm = () => {
+  const auth = useAuth();
+  const router = useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-        name: "",
+      name: "",
       email: "",
 
       password: "",
@@ -44,11 +52,24 @@ const SignupForm = () => {
 
   const { toast } = useToast();
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    toast({
-      title: "Login Successful!",
-    });
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const { name, email, password } = values;
+      const { result } = await SignUpWithEmail(
+        email,
+        password
+      );
+
+      toast({
+        title: "SignUp Successful!",
+      });
+    } catch (error) {
+      console.log(error)
+      toast({
+        variant: "destructive",
+        title: "SignUp Failed!",
+      });
+    }
   }
 
   return (

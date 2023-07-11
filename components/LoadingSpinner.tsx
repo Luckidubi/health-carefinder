@@ -1,12 +1,11 @@
 import Image from "next/image";
 
-const Loading = () => {
-  return (
-    //make it take screen height
+const LoadingSpinner = () => {
 
+  return (
     <div className="w-full relative flex-center h-screen ">
       <Image
-        src="/loader.svg"
+        src="/my-loader (1).svg"
         width={50}
         height={50}
         alt="loader"
@@ -17,4 +16,4 @@ const Loading = () => {
   );
 };
 
-export default Loading;
+export default LoadingSpinner;
