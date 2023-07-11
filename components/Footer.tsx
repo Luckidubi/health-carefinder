@@ -131,7 +131,7 @@ const Footer = () => {
               <ul className="flex flex-wrap items-center justify-end gap-2 lg:gap-4">
                 <li className="leading-6">
                   <a
-                    href="javascript:void(0)"
+                    href=""
                     className="transition-colors duration-300 hover:text-blue-900 focus:text-blue-600"
                   >
                     T&C

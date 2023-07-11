@@ -1,4 +1,3 @@
-import FirebaseAppWrapper from "@/lib/firebase";
 
 export default function SignUpLayout({
   children,
@@ -7,10 +6,9 @@ export default function SignUpLayout({
 }) {
   return (
     <section >
-<FirebaseAppWrapper>
 
       {children}
-</FirebaseAppWrapper>
+
     </section>
   );
 }

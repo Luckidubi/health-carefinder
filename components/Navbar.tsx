@@ -1,30 +1,35 @@
 "use client";
 
+import { SignOut } from "@/lib/firebase/auth/auth";
+
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { useAuth, useSigninCheck } from "reactfire";
+
 import { Button } from "./ui/button";
+import UserAvatar from "./UserAvatar";
 
 export default function Navbar() {
   const [isToggleOpen, setIsToggleOpen] = useState(false);
-   const pathname = usePathname();
+  const pathname = usePathname();
+  const { status, data: signinResult } = useSigninCheck();
+  const auth = useAuth();
 
+  const handleScroll = () => {
+    const nextSection = document.getElementById("about");
 
-   const handleScroll = () => {
-     const nextSection = document.getElementById("about");
-
-     if (nextSection) {
-       nextSection.scrollIntoView({ behavior: "smooth" });
-     }
-   };
+    if (nextSection) {
+      nextSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
     <>
       {/*<!-- Header --> */}
       <header className="border-b-1 relative z-20 w-full border-b border-slate-200 bg-white/90 shadow-lg shadow-slate-700/5 lg:border-slate-200 lg:backdrop-blur-sm ">
-        <div className="relative mx-auto max-w-[1440px] px-6 py-4 xl:max-w-7xl 2xl:max-w-[96rem]">
+        <div className="relative mx-auto max-w-[1440px] px-6 py-2 xl:max-w-7xl 2xl:max-w-[96rem]">
           <nav
             aria-label="main navigation"
             className="flex items-stretch justify-between font-medium text-slate-700"
@@ -90,7 +95,12 @@ export default function Navbar() {
                   <span>Home</span>
                 </Link>
               </li>
-              <li role="none" className={`items-stretch ${pathname === '/' ? 'flex': 'hidden' }`}>
+              <li
+                role="none"
+                className={`items-stretch ${
+                  pathname === "/" ? "flex" : "hidden"
+                }`}
+              >
                 <Link
                   className="flex lg:text-[20px] font-medium leading-10 items-center gap-2 py-4 text-black transition-colors duration-300 hover:text-blue-900 focus:bg-blue-50 focus:outline-none focus-visible:outline-none lg:px-8"
                   href=""
@@ -104,37 +114,70 @@ export default function Navbar() {
                   className="flex lg:text-[20px] font-medium leading-10 items-center gap-2 py-4 text-black transition-colors duration-300 hover:text-blue-900 focus:bg-blue-50 focus:outline-none focus-visible:outline-none lg:px-8"
                   href="/find-hospital"
                 >
-                  <span>Find Hospital</span>
+                  Find Hospital
+                </Link>
+              </li>
+              <li role="none" className="flex items-stretch sm:hidden">
+                <Link
+                  className="flex lg:text-[20px] font-medium leading-10 items-center gap-2 py-4 text-black transition-colors duration-300 hover:text-blue-900 focus:bg-blue-50 focus:outline-none focus-visible:outline-none lg:px-8"
+                  href="/library"
+                >
+                  <span>Library</span>
                 </Link>
               </li>
 
-
+              {!signinResult?.signedIn && (
+                <li role="none" className="flex items-stretch sm:hidden">
+                  <Link
+                    className="bg-blue-900 hover:bg-blue-500 text-white"
+                    href="/login"
+                  >
+                    Login
+                  </Link>
+                </li>
+              )}
+              {signinResult?.signedIn && (
+                <li role="none" className="flex items-stretch sm:hidden">
+                  <Button
+                    className="bg-blue-900 hover:bg-blue-500 text-white"
+                    onClick={() => SignOut(auth)}
+                  >
+                    Sign Out
+                  </Button>
+                </li>
+              )}
             </ul>
 
             <div className="ml-auto flex items-center px-6 lg:ml-0 lg:p-0">
               {/*        <!-- Avatar --> */}
-              <Button className="bg-blue-900 hover:bg-blue-500 text-white" asChild>
-              <Link href="/login">
-                Login
-              </Link>
-              </Button>
-              <Link
-                href="/profile"
-                className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-white"
-              >
-                <Avatar>
-                  <AvatarImage src="" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-              </Link>
+              {!signinResult?.signedIn ? (
+                <Button
+                  className="bg-blue-900 hover:bg-blue-500 text-white"
+                  asChild
+                >
+                  <Link href="/login">Login</Link>
+                </Button>
+              ) : (
+                <div className="flex flex-between gap-2">
+                  <Link
+                    href="/profile"
+                    className="relative inline-flex h-10 w-10 items-center justify-center rounded-full text-white"
+                  >
+                    <UserAvatar />
+                  </Link>
+                  <Button
+                    className="bg-blue-900 hover:bg-blue-500 text-white hidden md:block"
+                    onClick={() => SignOut(auth)}
+                  >
+                    Sign out
+                  </Button>
+                </div>
+              )}
               {/*        <!-- End Avatar --> */}
-
-
             </div>
           </nav>
         </div>
       </header>
-      {/*<!-- End Navbar with Avatar--> */}
     </>
   );
 }

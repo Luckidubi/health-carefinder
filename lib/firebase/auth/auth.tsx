@@ -1,21 +1,18 @@
 "use client";
 
-import { Auth, getAuth, UserCredential } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import {
-  AuthProvider,
-  useAuth,
-  useFirebaseApp,
-  useSigninCheck,
-  useUser,
-} from "reactfire";
+import { AuthProvider, useFirebaseApp, useSigninCheck } from "reactfire";
 import {
   GoogleAuthProvider,
   FacebookAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithRedirect,
+  getAuth,
+  signInWithPopup,
+  Auth,
 } from "firebase/auth";
+import { toast } from "@/components/ui/use-toast";
 
 export function AuthWrapper(props: any) {
   const app = useFirebaseApp();
@@ -25,7 +22,7 @@ export function AuthWrapper(props: any) {
 
 export function AuthGuard(
   props: React.PropsWithChildren<{ fallback: JSX.Element }>
-) {
+): JSX.Element | null {
   const router = useRouter();
   const { status, data: signInCheckResult } = useSigninCheck();
 
@@ -38,49 +35,108 @@ export function AuthGuard(
   } else if (signInCheckResult?.signedIn === true) {
     return props.children as JSX.Element;
   } else {
-    return router.push("/login");
+    router.push("/login");
+    return null;
   }
 }
 
-export async function SignInWithEmail(email: string, password: string) {
-  const auth = useAuth();
+export async function signInWithEmail(
+  auth: Auth,
+  email: string,
+  password: string
+) {
   let result = null,
     error = null;
   try {
     result = await signInWithEmailAndPassword(auth, email, password);
-  } catch (error) {
+    toast({
+      title: "SignIn Successful!",
+    });
+  } catch (error: any) {
     error = error;
+    toast({
+      variant: "destructive",
+      title: "SignIn Failed!",
+      description: (
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code>{JSON.stringify(error.code, null, 2)}</code>
+        </pre>
+      ),
+    });
   }
   return { result, error };
 }
 
-export async function SignUpWithEmail(email: string, password: string) {
-  const auth = useAuth();
+export async function signUpWithEmail(
+  auth: Auth,
+  email: string,
+  password: string
+) {
   let result = null,
     error = null;
   try {
     result = await createUserWithEmailAndPassword(auth, email, password);
-    console.log(result)
-  } catch (error) {
+    if (result) {
+      toast({
+        title: "Sign Up Successful!",
+        description: "Your account has been created.",
+      });
+    }
+    console.log(result);
+  } catch (error: any) {
+    toast({
+      title: "Sign Up Failed!",
+      description: (
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code>{JSON.stringify(error.code, null, 2)}</code>
+        </pre>
+      ),
+      variant: "destructive",
+    });
     error = error;
   }
 
   return { result, error };
 }
 
-export async function SignInWithGoogle(auth: Auth) {
+export async function signInWithGoogle(auth: Auth) {
   try {
-    await signInWithRedirect(auth, new GoogleAuthProvider());
-  } catch (error) {
+    const { result } = await signInWithRedirect(auth, new GoogleAuthProvider());
+    if (result) {
+      console.log(result);
+    }
+  } catch (error: any) {
     console.log(error);
+    toast({
+      variant: "destructive",
+      title: "Google Sign-In Failed!",
+      description: (
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code>{JSON.stringify(error.code, null, 2)}</code>
+        </pre>
+      ),
+    });
   }
 }
 
-export async function SignInWithFacebook(auth: Auth) {
+export async function signInWithFacebook(auth: Auth) {
   try {
-    await signInWithRedirect(auth, new FacebookAuthProvider());
-  } catch (error) {
+    const provider = new FacebookAuthProvider();
+    provider.addScope("email");
+    const { user } = await signInWithPopup(auth, provider);
+    if (user) {
+    }
+  } catch (error: any) {
     console.log(error);
+    toast({
+      title: "Facebook Sign-In Failed!",
+      description: (
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code>{JSON.stringify(error.code, null, 2)}</code>
+        </pre>
+      ),
+      variant: "destructive",
+    });
   }
 }
 

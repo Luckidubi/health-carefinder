@@ -1,14 +1,20 @@
 "use client";
+import {
+  signInWithEmail,
+  signInWithFacebook,
+  signInWithGoogle,
+} from "@/lib/firebase/auth/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useAuth } from "reactfire";
 import * as z from "zod";
 import { Button } from "./ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -35,14 +41,23 @@ const LoginForm = () => {
       password: "",
     },
   });
-
+  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const auth = useAuth();
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      setLoading(true);
+      const { email, password } = values;
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    toast({
-      title: "Login Successful!",
-    });
+      const { result } = await signInWithEmail(auth, email, password);
+      if (result) {
+        console.log(result);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -98,8 +113,9 @@ const LoginForm = () => {
             <Button
               className="bg-blue-900 text-white hover:bg-blue-500 text-[20px] font-medium leading-10 w-[50%]"
               type="submit"
+              disabled={form.formState.isSubmitting}
             >
-              Login
+              {form.formState.isSubmitting ? "Logging In..." : "Login"}
             </Button>
             <div className="text-center space-y-2">
               <p className="text-black font-bold leading-9">OR</p>
@@ -111,6 +127,7 @@ const LoginForm = () => {
                   width={24}
                   height={24}
                   className="hover:cursor-pointer"
+                  onClick={() => signInWithGoogle(auth)}
                 />
                 <Image
                   src="/facebook.svg"
@@ -118,6 +135,7 @@ const LoginForm = () => {
                   width={24}
                   height={24}
                   className="hover:cursor-pointer"
+                  onClick={() => signInWithFacebook(auth)}
                 />
               </div>
             </div>

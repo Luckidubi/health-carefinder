@@ -1,10 +1,9 @@
 "use client";
 
-import { createUserWithEmailAndPassword, updateProfile } from "@firebase/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import Link from "next/link";
-import { useAuth, useFirestore, useFirestoreCollection } from "reactfire";
+import { useAuth } from "reactfire";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "./ui/button";
@@ -18,8 +17,12 @@ import {
 } from "./ui/form";
 import { Input } from "./ui/input";
 import { useToast } from "./ui/use-toast";
-import { collection } from "firebase/firestore";
-import { SignUpWithEmail } from "@/lib/firebase/auth/auth";
+
+import {
+  signInWithFacebook,
+  signInWithGoogle,
+  signUpWithEmail,
+} from "@/lib/firebase/auth/auth";
 import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
@@ -39,7 +42,7 @@ const formSchema = z.object({
 });
 const SignupForm = () => {
   const auth = useAuth();
-  const router = useRouter()
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -55,20 +58,13 @@ const SignupForm = () => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const { name, email, password } = values;
-      const { result } = await SignUpWithEmail(
-        email,
-        password
-      );
-
-      toast({
-        title: "SignUp Successful!",
-      });
+      const { result } = await signUpWithEmail(auth, email, password);
+      if (result) {
+        console.log(result);
+      }
     } catch (error) {
-      console.log(error)
-      toast({
-        variant: "destructive",
-        title: "SignUp Failed!",
-      });
+      console.log(error);
+    } finally {
     }
   }
 
@@ -136,8 +132,11 @@ const SignupForm = () => {
             <Button
               className="bg-blue-900 text-white hover:bg-blue-500 text-[14px] md:text-[20px] font-medium leading-10 w-[50%]"
               type="submit"
+              disabled={form.formState.isSubmitting}
             >
-              Create Account
+              {form.formState.isSubmitting
+                ? "Creating Account..."
+                : "Create Account"}
             </Button>
             <div className="text-center space-y-2">
               <p className="text-black font-bold leading-9">OR</p>
@@ -149,13 +148,16 @@ const SignupForm = () => {
                   width={24}
                   height={24}
                   className="hover:cursor-pointer"
+                  onClick={() => signInWithGoogle(auth)}
                 />
+
                 <Image
                   src="/facebook.svg"
                   alt="Facebook icon"
                   width={24}
                   height={24}
                   className="hover:cursor-pointer"
+                  onClick={() => signInWithFacebook(auth)}
                 />
               </div>
             </div>
