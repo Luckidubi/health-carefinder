@@ -9,14 +9,14 @@ export default function FindHospitalLayout({
 }) {
   return (
     <>
-      <section className="py-14 flex flex-col max-width h-screen">
-        <AuthGuard fallback={<LoadingSpinner />}>
+      <AuthGuard fallback={<LoadingSpinner />}>
+        <section className="py-14 flex flex-col max-width ">
           <div className="self-center min-w-[280px] w-[60%] max-w-[664px]">
             <SearchInput />
           </div>
           {children}
-        </AuthGuard>
-      </section>
+        </section>
+      </AuthGuard>
     </>
   );
 }

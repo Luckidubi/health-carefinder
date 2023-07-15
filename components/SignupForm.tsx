@@ -19,10 +19,11 @@ import { Input } from "./ui/input";
 import { useToast } from "./ui/use-toast";
 
 import {
-  signInWithFacebook,
-  signInWithGoogle,
-  signUpWithEmail,
-} from "@/lib/firebase/auth/auth";
+
+  handleSignInWithFacebook,
+  handleSignInWithGoogle,
+
+ } from "@/lib/firebase/auth/auth";
 import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
@@ -58,13 +59,37 @@ const SignupForm = () => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const { name, email, password } = values;
+
       const { result } = await signUpWithEmail(auth, email, password);
-      if (result) {
-        console.log(result);
+
+
+      const res = await fetch("/api/users/new", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: result?.user.uid as string,
+          username: name,
+          email: email,
+          photo: result?.user.photoURL
+        }),
+      });
+      if (res.ok) {
+        toast({
+          title: "Sign Up Successful!",
+          description: "Your account has been created.",
+        });
+        router.push("/profile");
+      } else {
+        throw new Error("Failed to create new user");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
-    } finally {
+      toast({
+        title: "Sign Up Failed!",
+        description: error.message || "Something went wrong.",
+      });
     }
   }
 
@@ -148,7 +173,7 @@ const SignupForm = () => {
                   width={24}
                   height={24}
                   className="hover:cursor-pointer"
-                  onClick={() => signInWithGoogle(auth)}
+                  onClick={() => handleSignInWithGoogle(auth)}
                 />
 
                 <Image
@@ -157,7 +182,7 @@ const SignupForm = () => {
                   width={24}
                   height={24}
                   className="hover:cursor-pointer"
-                  onClick={() => signInWithFacebook(auth)}
+                  onClick={() => handleSignInWithFacebook(auth)}
                 />
               </div>
             </div>

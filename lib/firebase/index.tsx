@@ -8,7 +8,7 @@ export default function FirebaseAppWrapper(props: React.PropsWithChildren) {
   return (
     <FirebaseAppProvider firebaseConfig={firebaseConfig}>
       <AuthWrapper>
-        <DatabaseWrapper>{props.children}</DatabaseWrapper>
+        {props.children}
       </AuthWrapper>
     </FirebaseAppProvider>
   );

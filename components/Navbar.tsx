@@ -117,7 +117,7 @@ export default function Navbar() {
                   Find Hospital
                 </Link>
               </li>
-              <li role="none" className="flex items-stretch sm:hidden">
+              <li role="none" className="flex items-stretch lg:hidden">
                 <Link
                   className="flex lg:text-[20px] font-medium leading-10 items-center gap-2 py-4 text-black transition-colors duration-300 hover:text-blue-900 focus:bg-blue-50 focus:outline-none focus-visible:outline-none lg:px-8"
                   href="/library"
@@ -128,12 +128,12 @@ export default function Navbar() {
 
               {!signinResult?.signedIn && (
                 <li role="none" className="flex items-stretch sm:hidden">
-                  <Link
+                  <Button
                     className="bg-blue-900 hover:bg-blue-500 text-white"
-                    href="/login"
+                    asChild
                   >
-                    Login
-                  </Link>
+                    <Link href="/login">Login</Link>
+                  </Button>
                 </li>
               )}
               {signinResult?.signedIn && (

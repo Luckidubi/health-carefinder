@@ -24,7 +24,10 @@ export default function RootLayout({
 
         <Navbar />
         <Toaster />
+        <div className="min-h-screen">
+
         {children}
+        </div>
         <Footer />
         </FirebaseAppWrapper>
       </body>

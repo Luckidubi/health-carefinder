@@ -4,12 +4,12 @@ import LoginForm from "./LoginForm";
 const Login = () => {
   return (
     <div className="grid grid-cols-4 gap-0 md:grid-cols-4 lg:grid-cols-12 ">
-      <div className="col-span-4  lg:col-span-6 bg-login-bg-1  bg-cover bg-no-repeat py-16 lg:pl-8 xl:pl-40 px-4 md:px-10 lg:px-0">
-        <div className="">
+      <div className="col-span-4  lg:col-span-6 bg-login-bg-1  bg-cover bg-no-repeat py-16 lg:pl-8 xl:pl-40 px-4 md:px-10 lg:px-0 min-h-screen">
+        <div className="pt-20 xl:pt-4 self-align-center">
           <LoginForm />
         </div>
       </div>
-      <div className="col-span-4 lg:col-span-6 bg-login-bg-2 bg-scroll bg-cover bg-no-repeat py-20 hidden lg:block space-x-4 space-y-4">
+      <div className="col-span-4 lg:col-span-6 bg-login-bg-2 bg-scroll bg-cover bg-no-repeat py-20 hidden lg:block space-x-4 space-y-4 min-h-screen">
         <h3 className="text-blue-900 text-[50px] font-bold leading-10 text-center">
           CareFinder
         </h3>
