@@ -22,6 +22,7 @@ import {
 
   handleSignInWithFacebook,
   handleSignInWithGoogle,
+  signUpWithEmail,
 
  } from "@/lib/firebase/auth/auth";
 import { useRouter } from "next/navigation";
@@ -55,6 +56,24 @@ const SignupForm = () => {
   });
 
   const { toast } = useToast();
+
+   async function handleGoogleSignIn() {
+     try {
+       await handleSignInWithGoogle(auth);
+       router.push("/profile");
+     } catch (error) {
+       console.log(error);
+     }
+   }
+
+   async function handleFacebookSignIn() {
+     try {
+       await handleSignInWithFacebook(auth);
+       router.push("/profile");
+     } catch (error) {
+       console.log(error);
+     }
+   }
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -173,7 +192,7 @@ const SignupForm = () => {
                   width={24}
                   height={24}
                   className="hover:cursor-pointer"
-                  onClick={() => handleSignInWithGoogle(auth)}
+                  onClick={handleGoogleSignIn}
                 />
 
                 <Image
@@ -182,7 +201,7 @@ const SignupForm = () => {
                   width={24}
                   height={24}
                   className="hover:cursor-pointer"
-                  onClick={() => handleSignInWithFacebook(auth)}
+                  onClick={handleFacebookSignIn}
                 />
               </div>
             </div>

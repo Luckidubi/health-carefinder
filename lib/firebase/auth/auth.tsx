@@ -7,20 +7,16 @@ import {
   FacebookAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-
   getAuth,
   signInWithPopup,
   Auth,
-
-
-
   User,
 } from "firebase/auth";
 import { toast } from "@/components/ui/use-toast";
 import { useEffect } from "react";
 
-interface SignInResult{
-  user : User | null
+interface SignInResult {
+  user: User | null;
 }
 
 export function AuthWrapper(props: any) {
@@ -31,7 +27,7 @@ export function AuthWrapper(props: any) {
 
 export function AuthGuard(
   props: React.PropsWithChildren<{ fallback: JSX.Element }>
-): any{
+): any {
   const router = useRouter();
 
   const pathname = usePathname();
@@ -42,29 +38,27 @@ export function AuthGuard(
   }
 
   useEffect(() => {
-   if (status === "success") {
-     if (signInCheckResult?.signedIn === true) {
-       const intendedRoute = sessionStorage.getItem("intendedRoute");
+    if (status === "success") {
+      if (signInCheckResult?.signedIn === true) {
+        const intendedRoute = sessionStorage.getItem("intendedRoute");
 
-       if (intendedRoute) {
-         sessionStorage.removeItem("intendedRoute");
-        router.push(intendedRoute);
-       }
-     } else {
-       sessionStorage.setItem("intendedRoute", pathname);
-      router.push("/login");
-     }
-   }
+        if (intendedRoute) {
+          sessionStorage.removeItem("intendedRoute");
+          router.push(intendedRoute);
+        }
+      } else {
+        sessionStorage.setItem("intendedRoute", pathname);
+        router.push("/login");
+      }
+    }
   }, [pathname, signInCheckResult, status, router]);
-
 
   if (status === "loading") {
     return props.fallback;
   } else if (signInCheckResult?.signedIn === true) {
     return props.children as JSX.Element;
   } else {
-    return null
-    ;
+    return null;
   }
 }
 
@@ -73,7 +67,6 @@ export async function signInWithEmail(
   email: string,
   password: string
 ) {
-
   let result = null,
     error = null;
   try {
@@ -82,8 +75,7 @@ export async function signInWithEmail(
       title: "SignIn Successful!",
     });
 
-    console.log(result)
-
+    console.log(result);
   } catch (error: any) {
     error = error;
     toast({
@@ -111,26 +103,10 @@ export async function signUpWithEmail(
 
     console.log(result);
   } catch (error: any) {
-
     error = error;
   }
 
   return { result, error };
-}
-
-export async function signInWithGoogle(auth: Auth) {
-let result, error;
-  try {
-   result = await signInWithPopup(auth, new GoogleAuthProvider());
-console.log(result)
-  } catch (error: any) {
-    console.log(error);
-    error = error
-
-  }
-
-  return {result, error}
-
 }
 
 export async function handleSignInWithGoogle(auth: Auth) {
@@ -155,15 +131,12 @@ export async function handleSignInWithGoogle(auth: Auth) {
     if (res.ok) {
       console.log(res);
 
-       toast({
-         title: "Google Sign In Successful!",
-       });
-       redirect("/profile");
-
+      toast({
+        title: "Google Sign In Successful!",
+      });
     } else {
-      throw new Error("Failed to create new user");
+      console.log("Failed to create new user");
     }
-
   } catch (error: any) {
     toast({
       variant: "destructive",
@@ -178,13 +151,11 @@ export async function handleSignInWithGoogle(auth: Auth) {
   }
 }
 
-
 export async function handleSignInWithFacebook(auth: Auth) {
   try {
     const provider = new FacebookAuthProvider();
     provider.addScope("email");
-    const {user}  =
-      await signInWithPopup(auth, provider);
+    const { user } = await signInWithPopup(auth, provider);
     console.log(user);
 
     const res = await fetch("/api/users/new", {
@@ -201,16 +172,13 @@ export async function handleSignInWithFacebook(auth: Auth) {
     });
 
     if (res.ok) {
-console.log(res);
-
+      console.log(res);
     } else {
-      throw new Error("Failed to create new user");
+      console.error("Failed to create new user");
     }
-     toast({
-       title: "Facebook Sign In Successful!",
-     });
-   
-
+    toast({
+      title: "Facebook Sign In Successful!",
+    });
   } catch (error: any) {
     toast({
       variant: "destructive",
@@ -224,7 +192,6 @@ console.log(res);
     console.log(error);
   }
 }
-
 
 export function SignOut(auth: Auth) {
   return auth

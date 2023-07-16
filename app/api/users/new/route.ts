@@ -19,6 +19,7 @@ export const POST = async (req: NextRequest, res: Response) => {
         email: email,
         username: username.replace(" ", ""),
         photo: photo,
+        address: "",
       });
 
       console.log("newUser", newUser);
