@@ -35,7 +35,7 @@ const formSchema = z.object({
     .max(100),
 });
 const ProfileForm = () => {
-  const { status, data: signinResult } = useSigninCheck();
+  const { data: signinResult } = useSigninCheck();
   const user = signinResult?.user;
   const { user: profile, isLoading } = useUser(user?.uid || "");
 
@@ -54,7 +54,7 @@ const ProfileForm = () => {
     form.setValue("fullname", profile?.username || "");
     form.setValue("email", profile?.email || "");
     form.setValue("address", profile?.address || "");
-  }, [profile]);
+  }, [profile, form]);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);

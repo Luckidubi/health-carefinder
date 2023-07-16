@@ -39,7 +39,7 @@
 
 
 .hero {
-  @apply flex xl:flex-row flex-col gap-5 xl:gap-12 relative z-0 max-w-[1440px] mx-auto;
+  @apply flex xl:flex-row flex-col gap-5 xl:gap-10 relative z-0 max-w-[1440px] mx-auto;
 }
 
 .hero__title {
@@ -51,7 +51,7 @@
 }
 
 .hero__image-container {
-  @apply xl:flex-[1.5] flex xl:justify-end xl:items-end items-center justify-center h-[600px] w-full xl:h-screen;
+  @apply xl:flex-[1.5] flex xl:justify-end xl:items-end items-center justify-center h-[600px] w-full ;
 }
 
 .hero__image {
