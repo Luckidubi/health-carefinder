@@ -1,7 +1,11 @@
 "use client";
+import { useUser } from "@/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect} from "react";
 import { useForm } from "react-hook-form";
+import { useSigninCheck } from "reactfire";
 import * as z from "zod";
+import LoadingSpinner from "./LoadingSpinner";
 import { Button } from "./ui/button";
 import {
   Form,
@@ -21,8 +25,7 @@ const formSchema = z.object({
     .min(6, {
       message: "Name must not be less than 6 characters",
     })
-    .max(50)
-    ,
+    .max(50),
   email: z.string().email({ message: "Invalid email address" }),
   address: z
     .string()
@@ -32,23 +35,63 @@ const formSchema = z.object({
     .max(100),
 });
 const ProfileForm = () => {
+  const { data: signinResult } = useSigninCheck();
+  const user = signinResult?.user;
+  const { user: profile, isLoading } = useUser(user?.uid || "");
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      fullname: "",
-      email: "",
-      address: "",
+      fullname: profile?.username || "",
+      email: profile?.email || "",
+      address: profile?.address || "",
     },
   });
 
-  const {toast} = useToast()
+  const { toast } = useToast();
+
+  useEffect(() => {
+    form.setValue("fullname", profile?.username || "");
+    form.setValue("email", profile?.email || "");
+    form.setValue("address", profile?.address || "");
+  }, [profile, form]);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-     toast({
-       title: "Profile saved!"
+    updateProfile(values);
+    toast({
+      title: "Profile saved!",
+    });
+  }
 
-     });
+  const updateProfile = async (data: z.infer<typeof formSchema>) => {
+    try {
+      const res = await fetch(`/api/users/${user?.uid}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (res.ok) {
+        toast({
+          title: "Profile updated successfully!",
+        });
+      } else {
+        throw new Error("Failed to update profile");
+      }
+    } catch (error: any) {
+      console.log(error);
+      toast({
+        title: "Failed to update profile",
+        description: error.message || "Something went wrong.",
+      });
+    }
+  };
+
+  if (isLoading) {
+    return <LoadingSpinner />;
   }
 
   return (
@@ -104,10 +147,11 @@ const ProfileForm = () => {
           />
           <div className="flex flex-center">
             <Button
-              className="bg-blue-900 text-white hover:bg-blue-500 text-[20px] font-medium leading-10"
+              className="bg-blue-900 text-white hover:bg-blue-500 text-[20px] font-medium leading-10 w-[50%] tracking-wider"
               type="submit"
+              disabled={form.formState.isSubmitting}
             >
-              Save
+             {form.formState.isSubmitting ? 'Saving': 'Save'}
             </Button>
           </div>
         </form>

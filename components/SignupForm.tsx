@@ -1,7 +1,9 @@
 "use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import Link from "next/link";
+import { useAuth } from "reactfire";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "./ui/button";
@@ -15,6 +17,15 @@ import {
 } from "./ui/form";
 import { Input } from "./ui/input";
 import { useToast } from "./ui/use-toast";
+
+import {
+
+  handleSignInWithFacebook,
+  handleSignInWithGoogle,
+  signUpWithEmail,
+
+ } from "@/lib/firebase/auth/auth";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z
@@ -32,10 +43,12 @@ const formSchema = z.object({
   }),
 });
 const SignupForm = () => {
+  const auth = useAuth();
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-        name: "",
+      name: "",
       email: "",
 
       password: "",
@@ -44,11 +57,59 @@ const SignupForm = () => {
 
   const { toast } = useToast();
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    toast({
-      title: "Login Successful!",
-    });
+   async function handleGoogleSignIn() {
+     try {
+       await handleSignInWithGoogle(auth);
+       router.push("/profile");
+     } catch (error) {
+       console.log(error);
+     }
+   }
+
+   async function handleFacebookSignIn() {
+     try {
+       await handleSignInWithFacebook(auth);
+       router.push("/profile");
+     } catch (error) {
+       console.log(error);
+     }
+   }
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const { name, email, password } = values;
+
+      const { result } = await signUpWithEmail(auth, email, password);
+
+
+      const res = await fetch("/api/users/new", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: result?.user.uid as string,
+          username: name,
+          email: email,
+          photo: result?.user.photoURL
+        }),
+      });
+      if (res.ok) {
+        toast({
+          title: "Sign Up Successful!",
+          description: "Your account has been created.",
+        });
+        router.push("/profile");
+      } else {
+        throw new Error("Failed to create new user");
+      }
+    } catch (error: any) {
+      console.log(error);
+      toast({
+        title: "Sign Up Failed!",
+        description: error.message || "Something went wrong.",
+      });
+    }
   }
 
   return (
@@ -115,8 +176,11 @@ const SignupForm = () => {
             <Button
               className="bg-blue-900 text-white hover:bg-blue-500 text-[14px] md:text-[20px] font-medium leading-10 w-[50%]"
               type="submit"
+              disabled={form.formState.isSubmitting}
             >
-              Create Account
+              {form.formState.isSubmitting
+                ? "Creating Account..."
+                : "Create Account"}
             </Button>
             <div className="text-center space-y-2">
               <p className="text-black font-bold leading-9">OR</p>
@@ -128,13 +192,16 @@ const SignupForm = () => {
                   width={24}
                   height={24}
                   className="hover:cursor-pointer"
+                  onClick={handleGoogleSignIn}
                 />
+
                 <Image
                   src="/facebook.svg"
                   alt="Facebook icon"
                   width={24}
                   height={24}
                   className="hover:cursor-pointer"
+                  onClick={handleFacebookSignIn}
                 />
               </div>
             </div>

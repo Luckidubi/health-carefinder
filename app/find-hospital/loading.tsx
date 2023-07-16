@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const Loading = () => {
   return (
-    <div className="w-full flex-center">
+    <div className="w-full relative flex-center h-screen ">
       <Image
         src="/loader.svg"
         width={50}
@@ -10,6 +10,7 @@ const Loading = () => {
         alt="loader"
         className="object-contain"
       />
+      <div className="after-content absolute inset-0"></div>
     </div>
   );
 };

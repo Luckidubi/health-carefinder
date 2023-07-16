@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const Loading = () => {
   return (
-    //make it take screen height
+   
 
     <div className="w-full relative flex-center h-screen ">
       <Image

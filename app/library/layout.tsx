@@ -1,6 +1,8 @@
+import LoadingSpinner from "@/components/LoadingSpinner";
 import SearchInput from "@/components/SearchInput";
 import Sidebar from "@/components/Sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { AuthGuard } from "@/lib/firebase/auth/auth";
 
 export default function LibraryLayout({
   children,
@@ -8,6 +10,9 @@ export default function LibraryLayout({
   children: React.ReactNode;
 }) {
   return (
+    <>
+    <AuthGuard fallback={<LoadingSpinner/>}>
+
     <section className="py-12 max-width relative">
       <div className="grid grid-cols-4 gap-6 md:grid-cols-12 lg:grid-cols-12">
         <div className="sidebar hidden lg:block col-span-4 lg:col-span-3">
@@ -26,5 +31,7 @@ export default function LibraryLayout({
         </div>
       </div>
     </section>
+    </AuthGuard>
+    </>
   );
 }
