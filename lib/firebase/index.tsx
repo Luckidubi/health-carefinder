@@ -2,14 +2,23 @@
 import { FirebaseAppProvider } from "reactfire";
 import { AuthWrapper } from "./auth/auth";
 import { firebaseConfig } from "./config";
-import DatabaseWrapper from "./firestore/firestore";
+import dynamic from "next/dynamic";
+import { ReactNode } from "react";
 
+interface AuthWrapperProps {
+  children: ReactNode
+}
+
+const DynamicAuthWrapper = dynamic<AuthWrapperProps>(() =>
+
+  import("./auth/auth").then((mod) => mod.AuthWrapper)
+);
 export default function FirebaseAppWrapper(props: React.PropsWithChildren) {
   return (
     <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-      <AuthWrapper>
+      <DynamicAuthWrapper>
         {props.children}
-      </AuthWrapper>
+      </DynamicAuthWrapper>
     </FirebaseAppProvider>
   );
 }

@@ -27,3 +27,19 @@ export interface HospitalCardProps{
   name: string
   address: string
 }
+
+export interface GeolocationCoordinates {
+  latitude: number;
+  longitude: number;
+
+}
+
+export interface ShowMoreProps {
+  pageNumber: number;
+  isNext: boolean;
+  setLimit: (limit: number) => void;
+}
+
+export interface ComboboxProps {
+  onSelect: (latitude: number, longitude: number) => void;
+}

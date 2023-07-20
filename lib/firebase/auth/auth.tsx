@@ -1,6 +1,6 @@
 "use client";
 
-import { redirect, usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { AuthProvider, useFirebaseApp, useSigninCheck } from "reactfire";
 import {
   GoogleAuthProvider,
@@ -40,7 +40,7 @@ export function AuthGuard(
   useEffect(() => {
     if (status === "success") {
       if (signInCheckResult?.signedIn === true) {
-        const intendedRoute = sessionStorage.getItem("intendedRoute");
+        const intendedRoute = sessionStorage.getItem("intendedRoute") as string;
 
         if (intendedRoute) {
           sessionStorage.removeItem("intendedRoute");
