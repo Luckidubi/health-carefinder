@@ -1,8 +1,36 @@
-import { Download,  Share2Icon,  } from "lucide-react";
+"use client";
+import { Download, Share2Icon } from "lucide-react";
 import Image from "next/image";
 import { Button } from "./ui/button";
+import { useEffect } from "react";
+import { useHospitalDetail } from "@/hooks";
+import LoadingSpinner from "./LoadingSpinner";
 
-const ViewHospital = () => {
+import { useRouter } from "next/navigation";
+
+const ViewHospital = ({ id }: { id: string }) => {
+  const router = useRouter();
+
+  const { hospitalDetail, isLoading, isError } = useHospitalDetail(
+    id as string
+  );
+
+  useEffect(() => {
+    if (isError) {
+      console.log(isError);
+      <div className="text-center text-2xl">Hospital not found</div>;
+      router.back();
+    }
+  }, [isError, router]);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  if (!hospitalDetail) {
+    return <div className="text-center text-2xl">Hospital not found</div>;
+  }
+
   return (
     <div className="flex flex-col md:flex-row gap-8 xl:gap-20">
       <div className="max-w-[700px] max-h-[700px] flex-1 lg:flex-[1.5]">
@@ -15,16 +43,19 @@ const ViewHospital = () => {
         />
       </div>
       <div className=" flex flex-col flex-1 min-w-[280px] max-w-[479px] w-[auto] h-[514px]">
-        <div className="overflow-hidden shadow-md rounded-xl bg-zinc-200 flex flex-col gap-6 flex-center py-4">
-          <div className="view-hospital__card-div">Eve Foundation Hospital</div>
+        <div className="overflow-hidden border-none px-3  shadow-md rounded-xl bg-zinc-200 flex flex-col gap-6 flex-center py-6">
+          <div className="view-hospital__card-div">{hospitalDetail.name}</div>
           <div className="view-hospital__card-div">
-            32, Admiralty way, lekki phase1
-          </div>
-          <div className="view-hospital__card-div">
-            Evefoundation1@gmail.com
+            {`${hospitalDetail.road}, ${hospitalDetail.city}, ${hospitalDetail.state}`}
           </div>
           <div className="view-hospital__card-div">Opening Hours: 24hours</div>
-          <div className="view-hospital__card-div">+23490378427843</div>
+          <div className="view-hospital__card-div">
+            Postcode: {hospitalDetail.postalcode}
+          </div>
+          <div className="view-hospital__card-div">
+            {" "}
+            Country : {hospitalDetail.country}
+          </div>
           <div className="flex flex-between gap-10">
             <Button
               variant="outline"
@@ -42,9 +73,7 @@ const ViewHospital = () => {
             </Button>
           </div>
         </div>
-        <div>
-
-        </div>
+        <div></div>
       </div>
     </div>
   );

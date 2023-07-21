@@ -278,8 +278,8 @@ export const states = [
   {
     value: "oyo",
     label: "Oyo",
-    latitude: 7.848,
-    longitude: 3.92,
+    latitude: 8.2151249,
+    longitude: 3.5642897,
   },
   {
     value: "plateau",

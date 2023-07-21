@@ -59,7 +59,7 @@
 }
 
 .view-hospital__card-div {
-  @apply relative z-10 bg-neutral-100 rounded-xl border-stone-700 text-center text-black text-[18px]  font-normal leading-10 w-[300px] max-w-[413px]
+  @apply relative z-10 bg-neutral-100 rounded-xl border-stone-700 text-center text-black text-[15px]  font-semibold leading-10 w-[300px] max-w-[413px]
 }
 
 .nav-links{
@@ -74,4 +74,8 @@
 
 label {
   @apply text-black text-[25px] font-medium leading-9
+}
+
+.input-header {
+  @apply   text-[14px] sm:text-[20px] font-medium text-center leading-10 text-black
 }

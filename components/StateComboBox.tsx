@@ -1,11 +1,16 @@
-import React, { useState } from 'react'
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
-import { Button } from './ui/button';
-import { states } from '@/constants';
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from './ui/command';
-import { CheckIcon, ChevronsUpDown } from 'lucide-react';
-import { ComboboxProps } from '@/types';
-
+import React, { useState } from "react";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Button } from "./ui/button";
+import { states } from "@/constants";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "./ui/command";
+import { CheckIcon, ChevronsUpDown } from "lucide-react";
+import { ComboboxProps } from "@/types";
 
 const StateComboBox = ({ onSelect }: ComboboxProps) => {
   const [open, setOpen] = useState(false);
@@ -27,7 +32,7 @@ const StateComboBox = ({ onSelect }: ComboboxProps) => {
           </Button>
         </PopoverTrigger>
         <PopoverContent className="mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-          <Command>
+          <Command className="w-full">
             <CommandInput placeholder="Search state..." className="h-9" />
             <CommandEmpty>No state found.</CommandEmpty>
             <CommandGroup>
@@ -36,7 +41,7 @@ const StateComboBox = ({ onSelect }: ComboboxProps) => {
                   key={state.value}
                   onSelect={() => {
                     setValue(state.value);
-                    onSelect(state.latitude, state.longitude);
+                    onSelect(state.latitude, state.longitude, state.label);
                     setOpen(false);
                   }}
                 >
@@ -58,4 +63,4 @@ const StateComboBox = ({ onSelect }: ComboboxProps) => {
   );
 };
 
-export default StateComboBox
+export default StateComboBox;

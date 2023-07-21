@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest, res: Response) => {
   const data = await req.json();
+  console.log(data);
   await dbConnect();
   try {
     // Check if the hospital already exists
@@ -18,9 +19,9 @@ export const POST = async (req: NextRequest, res: Response) => {
         ],
       });
 
-      if (!existingHospital) {
+      if (!existingHospital && data) {
         const savedHospital = await Hospital.create({
-          name: hospital.name,
+          name: hospital.address.name,
           address: hospital.display_name,
           latitude: hospital.lat,
           longitude: hospital.lon,
@@ -29,7 +30,7 @@ export const POST = async (req: NextRequest, res: Response) => {
           state: hospital.address.state,
           city: hospital.address.city,
           road: hospital.address.road,
-          postalcode: hospital.address.postcode
+          postalcode: hospital.address.postcode,
         });
         savedHospitals.push(savedHospital);
       }

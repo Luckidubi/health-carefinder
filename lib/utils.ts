@@ -3,13 +3,13 @@ import { twMerge } from "tailwind-merge";
 
 export interface HospitalItemProps {
   display_name: string;
-  name: string;
+
   address: {
     name: string;
     road: string;
-    city?: string;
-    state?: string;
-    postcode?: string;
+    city: string;
+    state: string;
+    postcode: string;
     country: string;
     country_code: string;
   };
@@ -17,6 +17,7 @@ export interface HospitalItemProps {
   lat: string;
   lon: string;
   place_id: string;
+  osm_id: string;
 }
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -39,16 +40,20 @@ export const getFallbackLetter = (username: string) => {
 };
 
 export function extractLocationData(data: any): HospitalItemProps[] {
+  if (!data || !Array.isArray(data)) {
+    return [];
+  }
   return data.map((item: HospitalItemProps) => {
-    const { address, name, lat, lon, display_name, place_id } = item;
+    const { address, lat, lon, display_name, place_id, osm_id } = item;
 
     return {
       display_name,
       address,
-      name,
+
       lat,
       lon,
       place_id,
+      osm_id,
     };
   });
 }
@@ -59,7 +64,7 @@ export async function fetchHospitals(
 ) {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_LOCATION_URL}?key=${process.env.NEXT_PUBLIC_LOCATION_API_KEY}&lat=${latitude}&lon=${longitude}&tag=hospital&radius=30000&limit=${limit}&format=json`
+      `${process.env.NEXT_PUBLIC_LOCATION_URL}?key=${process.env.NEXT_PUBLIC_LOCATION_API_KEY}&lat=${latitude}&lon=${longitude}&tag=amenity:hospital&radius=30000&limit=${limit}&format=json`
     );
 
     const result = await response.json();
