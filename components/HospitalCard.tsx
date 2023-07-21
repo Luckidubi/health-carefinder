@@ -12,7 +12,11 @@ const HospitalCard = ({ photo, address, name, id }: HospitalCardProps) => {
             alt="card image"
             width={223}
             height={201}
-            className="w-full"
+            className="w-full object-contain rounded-xl"
+             
+
+
+
           />
         </figure>
 

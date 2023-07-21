@@ -1,3 +1,4 @@
+'use-client'
 import ViewHospital from "@/components/ViewHospital";
 
 const page = ({ params }: { params: { id: string } }) => {
