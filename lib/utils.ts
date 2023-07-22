@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-
+import Papa from "papaparse";
 export interface HospitalItemProps {
   display_name: string;
 
@@ -75,3 +75,21 @@ export async function fetchHospitals(
     throw error;
   }
 }
+
+export const exportToCSV = (data: any) => {
+  const csv = Papa.unparse(data, {
+    header: true, 
+  });
+
+  // Create a Blob from the CSV data
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+
+  // Create a download link and trigger the download
+  const link = document.createElement("a");
+  link.setAttribute("href", URL.createObjectURL(blob));
+  link.setAttribute("download", "hospitals.csv");
+  link.style.display = "none";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};

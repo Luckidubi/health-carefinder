@@ -3,13 +3,17 @@ import HospitalCard from "@/components/HospitalCard";
 import SearchInput from "@/components/SearchInput";
 import ShowMore from "@/components/ShowMore";
 import StateComboBox from "@/components/StateComboBox";
+import { Button } from "@/components/ui/button";
+import { toast, useToast } from "@/components/ui/use-toast";
 
 import {
   HospitalItemProps,
+  exportToCSV,
   extractLocationData,
   fetchHospitals,
 } from "@/lib/utils";
 import { HospitalProps } from "@/models/Hospital";
+import { FileDown, LucideFileDown } from "lucide-react";
 
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
@@ -24,6 +28,7 @@ const Page = () => {
     HospitalItemProps[]
   >([]);
   const [limit, setLimit] = useState<number>(10);
+  const { toast } = useToast();
 
   const getHospitals = useCallback(async () => {
     setLoading(true);
@@ -106,6 +111,30 @@ const Page = () => {
     saveHospitalData();
   }, [extractedLocationData, saveHospital]);
 
+  const handleExport = async (extractedLocationData: HospitalItemProps[]) => {
+    try {
+      const res = await fetch(`/api/hospitals/export`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(extractedLocationData),
+      });
+      console.log(res);
+      if (res.ok) {
+        const csvData = await res.text();
+        console.log("csv", csvData);
+        exportToCSV(csvData);
+      }
+    } catch (error) {
+      toast({
+        title: "Failed to export",
+        variant: "destructive",
+      });
+      console.log(error);
+    }
+  };
+
   console.log(allHospitals);
   console.log(latitude, longitude);
   console.log(extractedLocationData);
@@ -136,9 +165,18 @@ const Page = () => {
         </div>
         {extractedLocationData.length > 0 ? (
           <div>
-            <h4 className="pl-12 text-black text-[20px] sm:text-[30px] font-medium leading-10">
-              Hospitals Nearby {selectedState}
-            </h4>
+            <div className="flex-between">
+              <h4 className="pl-12 text-black text-[20px] sm:text-[30px] font-medium leading-10">
+                Hospitals Nearby {selectedState}
+              </h4>
+              <Button
+                title="Download Hospitals as CSV file"
+                onClick={() => handleExport(extractedLocationData)}
+                className="bg-gray-200 text-black hover:bg-gray-900 hover:text-white"
+              >
+                Export <LucideFileDown />
+              </Button>
+            </div>
             <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2  w-full gap-6 pt-6 mb-6">
               {extractedLocationData.map((item) => (
                 <HospitalCard
