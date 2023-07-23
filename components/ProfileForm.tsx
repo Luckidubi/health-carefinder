@@ -37,7 +37,7 @@ const formSchema = z.object({
 const ProfileForm = () => {
   const { data: signinResult } = useSigninCheck();
   const user = signinResult?.user;
-  const { user: profile, isLoading } = useUser(user?.uid || "");
+  const { user: profile, isLoading }: any = useUser(user?.uid || "");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

@@ -1,6 +1,7 @@
+
 import { HospitalItemProps } from "@/lib/utils";
 import { HospitalProps } from "@/models/Hospital";
-import { useEffect, useState } from "react";
+import { useEffect, useState, } from "react";
 import useSWR, { Fetcher, mutate } from "swr";
 
 const fetcher: Fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -13,6 +14,16 @@ export function useUser(id: string) {
     isLoading,
     isError: error,
   };
+}
+
+export function useLibrary(id: string) {
+  const { data, error, isLoading } = useSWR(`/api/library/${id}`, fetcher);
+
+  return {
+    library: data,
+    isLoading,
+    isError: error,
+  }
 }
 
 export function useSearchHospitals(searchValue: string) {

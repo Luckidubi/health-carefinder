@@ -13,7 +13,7 @@ import {
   fetchHospitals,
 } from "@/lib/utils";
 import { HospitalProps } from "@/models/Hospital";
-import { FileDown, LucideFileDown } from "lucide-react";
+import { LucideFileDown } from "lucide-react";
 
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";

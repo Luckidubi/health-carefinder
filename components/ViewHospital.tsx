@@ -7,12 +7,17 @@ import { useHospitalDetail } from "@/hooks";
 import LoadingSpinner from "./LoadingSpinner";
 
 import dynamic from "next/dynamic";
+import { useToast } from "./ui/use-toast";
+import { useSigninCheck } from "reactfire";
 
 const Map = dynamic(() => import("@/components/Map"), { ssr: false });
 const ViewHospital = ({ id }: { id: string }) => {
   const { hospitalDetail, isLoading, isError } = useHospitalDetail(
     id as string
   );
+  const { data: signinResult } = useSigninCheck();
+  const user = signinResult?.user;
+  const {toast} = useToast();
 
   if (
     hospitalDetail?.latitude === undefined ||
@@ -32,6 +37,56 @@ const ViewHospital = ({ id }: { id: string }) => {
   if (!hospitalDetail) {
     return <div className="text-center text-2xl">Hospital not found</div>;
   }
+
+  const handleShare = async () => {
+    const baseDomainUrl = window.location.origin;
+    const shareableLink = `${baseDomainUrl}/find-hospital/${hospitalDetail.place_id}`;
+
+    if (navigator.share) {
+
+      try {
+        await navigator.share({
+          title: "Carefinder",
+          text: "Check out this hospital near you!",
+          url: shareableLink,
+        });
+      } catch (error) {
+        console.error("Error sharing:", error);
+      }
+    } else {
+      // Show an alert with the shareable link
+      alert("Shareable link:\n" + shareableLink);
+    }
+  };
+
+  const handleSaveToLibrary = async () => {
+      try {
+        const res = await fetch(`/api/library/new`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user_id: user?.uid,
+            place_id: hospitalDetail.place_id,
+            hospital_name: hospitalDetail.name,
+            hospital_address: hospitalDetail.address
+          })
+        })
+        if (res.ok) {
+          toast({
+            title: "Saved to library",
+
+          });
+        }
+      } catch (error) {
+        toast({
+          title: "Failed to save to library",
+          variant: "destructive",
+        });
+      }
+  }
+
 
   return (
     <div className="flex flex-col gap-8">
@@ -68,6 +123,7 @@ const ViewHospital = ({ id }: { id: string }) => {
                 variant="outline"
                 size="icon"
                 className="hover:bg-blue-900 hover:text-white text-blue-900 bg-neutral-100 "
+                onClick={handleSaveToLibrary}
               >
                 <Download className="h-4 w-4" />
               </Button>
@@ -75,6 +131,7 @@ const ViewHospital = ({ id }: { id: string }) => {
                 variant="outline"
                 size="icon"
                 className="hover:bg-blue-900 hover:text-white text-blue-900 bg-neutral-100 "
+                onClick={handleShare}
               >
                 <Share2Icon className="h-4 w-4" />
               </Button>
