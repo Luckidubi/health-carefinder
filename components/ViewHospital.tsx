@@ -2,22 +2,24 @@
 import { Download, Share2Icon } from "lucide-react";
 import Image from "next/image";
 import { Button } from "./ui/button";
-
 import { useHospitalDetail } from "@/hooks";
 import LoadingSpinner from "./LoadingSpinner";
 
 import dynamic from "next/dynamic";
 import { useToast } from "./ui/use-toast";
 import { useSigninCheck } from "reactfire";
+import { useState } from "react";
+import { handleShare } from "@/lib/utils";
 
 const Map = dynamic(() => import("@/components/Map"), { ssr: false });
 const ViewHospital = ({ id }: { id: string }) => {
   const { hospitalDetail, isLoading, isError } = useHospitalDetail(
     id as string
   );
+  const [loading, setLoading] = useState(false);
   const { data: signinResult } = useSigninCheck();
   const user = signinResult?.user;
-  const {toast} = useToast();
+  const { toast } = useToast();
 
   if (
     hospitalDetail?.latitude === undefined ||
@@ -38,55 +40,42 @@ const ViewHospital = ({ id }: { id: string }) => {
     return <div className="text-center text-2xl">Hospital not found</div>;
   }
 
-  const handleShare = async () => {
-    const baseDomainUrl = window.location.origin;
-    const shareableLink = `${baseDomainUrl}/find-hospital/${hospitalDetail.place_id}`;
-
-    if (navigator.share) {
-
-      try {
-        await navigator.share({
-          title: "Carefinder",
-          text: "Check out this hospital near you!",
-          url: shareableLink,
+  const handleSaveToLibrary = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(`/api/library/new`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: user?.uid,
+          place_id: hospitalDetail.place_id,
+          hospital_name: hospitalDetail.name,
+          hospital_address: hospitalDetail.address,
+          latitude: hospitalDetail.latitude,
+          longitude: hospitalDetail.longitude,
+          country: hospitalDetail.country,
+          state: hospitalDetail.state,
+          city: hospitalDetail.city,
+          road: hospitalDetail.road,
+          postcode: hospitalDetail.postalcode,
+        }),
+      });
+      if (res.ok) {
+        toast({
+          title: "Saved to library",
         });
-      } catch (error) {
-        console.error("Error sharing:", error);
       }
-    } else {
-      // Show an alert with the shareable link
-      alert("Shareable link:\n" + shareableLink);
+    } catch (error) {
+      toast({
+        title: "Failed to save to library",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
     }
   };
-
-  const handleSaveToLibrary = async () => {
-      try {
-        const res = await fetch(`/api/library/new`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user_id: user?.uid,
-            place_id: hospitalDetail.place_id,
-            hospital_name: hospitalDetail.name,
-            hospital_address: hospitalDetail.address
-          })
-        })
-        if (res.ok) {
-          toast({
-            title: "Saved to library",
-
-          });
-        }
-      } catch (error) {
-        toast({
-          title: "Failed to save to library",
-          variant: "destructive",
-        });
-      }
-  }
-
 
   return (
     <div className="flex flex-col gap-8">
@@ -124,6 +113,7 @@ const ViewHospital = ({ id }: { id: string }) => {
                 size="icon"
                 className="hover:bg-blue-900 hover:text-white text-blue-900 bg-neutral-100 "
                 onClick={handleSaveToLibrary}
+                disabled={loading}
               >
                 <Download className="h-4 w-4" />
               </Button>
@@ -131,7 +121,7 @@ const ViewHospital = ({ id }: { id: string }) => {
                 variant="outline"
                 size="icon"
                 className="hover:bg-blue-900 hover:text-white text-blue-900 bg-neutral-100 "
-                onClick={handleShare}
+                onClick={() => handleShare(hospitalDetail.place_id)}
               >
                 <Share2Icon className="h-4 w-4" />
               </Button>

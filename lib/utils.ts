@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import Papa from "papaparse";
+import { LibraryProps } from "@/models/Library";
 export interface HospitalItemProps {
   display_name: string;
 
@@ -78,7 +79,7 @@ export async function fetchHospitals(
 
 export const exportToCSV = (data: any) => {
   const csv = Papa.unparse(data, {
-    header: true, 
+    header: true,
   });
 
   // Create a Blob from the CSV data
@@ -92,4 +93,32 @@ export const exportToCSV = (data: any) => {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+};
+
+export function convertToCSV(data: any[]) {
+  const csv = Papa.unparse(data, {
+    header: true,
+    skipEmptyLines: true,
+  });
+  return csv;
+}
+
+export const handleShare = async (id: string) => {
+  const baseDomainUrl = window.location.origin;
+  const shareableLink = `${baseDomainUrl}/find-hospital/${id}`;
+
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: "Carefinder",
+        text: "Check out this hospital near you!",
+        url: shareableLink,
+      });
+    } catch (error) {
+      console.error("Error sharing:", error);
+    }
+  } else {
+    // Show an alert with the shareable link
+    alert("Shareable link:\n" + shareableLink);
+  }
 };

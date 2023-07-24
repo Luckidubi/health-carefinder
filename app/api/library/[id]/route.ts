@@ -21,3 +21,17 @@ export const GET = async (
     return new Response("Failed to fetch library", { status: 500 });
   }
 };
+
+export const DELETE = async (req: Request, { params }: any) => {
+  const { id } = params;
+  console.log(id, req);
+  try {
+    await dbConnect();
+    console.log("paramsid", params);
+
+    await Library.findByIdAndDelete(params.id);
+    return new Response("library deleted successfully", { status: 200 });
+  } catch (error) {
+    return new Response("Failed to delete library", { status: 500 });
+  }
+};

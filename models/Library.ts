@@ -23,6 +23,24 @@ const LibrarySchema = new Schema<LibraryProps>({
     type: String,
     default: "",
   },
+  latitude: {
+    type: String,
+  },
+  longitude: {
+    type: String,
+  },
+  country:{
+    type: String,
+
+  },
+  state:{
+    type: String,
+  },
+  city: {
+type: String,
+  },
+  road: String,
+  postcode: String,
 });
 
 export interface LibraryProps extends Document {
@@ -32,6 +50,13 @@ export interface LibraryProps extends Document {
   user_id: string;
   place_id: string;
   hospital_photo: string;
+  latitude: string;
+  longitude: string;
+  country: string;
+  state: string;
+  city: string;
+  road: string;
+  postcode: string;
 }
 
 const Library = models.Library || model("Library", LibrarySchema);
