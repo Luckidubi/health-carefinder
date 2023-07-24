@@ -16,9 +16,7 @@ const LibraryPage = () => {
   const { library, isLoading, isError }: any = useLibrary(user?.uid || "");
   const storage = useStorage();
 
-  const { status, data: csvURL } = useStorageDownloadURL(
-    ref(storage, `library/${user?.uid}.csv`)
-  );
+
   const [csvToSave, setCsvToSave] = useState("");
   const { toast } = useToast();
 
@@ -28,7 +26,7 @@ const LibraryPage = () => {
 
   if (isError) {
     return (
-      <div className="text-center text-2xl py-6">Something went wrong</div>
+      <div className="text-center text-2xl py-6">No items in the library</div>
     );
   }
   console.log(library.length);

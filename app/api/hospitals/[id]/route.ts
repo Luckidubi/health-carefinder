@@ -7,7 +7,6 @@ export const GET = async (
 ) => {
   try {
     await dbConnect();
-    console.log(params);
     const hospitalDetail = await Hospital.findOne({
       place_id: params.id,
     }).populate("place_id");

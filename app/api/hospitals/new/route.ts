@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest, res: Response) => {
   const data = await req.json();
-  console.log(data);
+  
   await dbConnect();
   try {
     // Check if the hospital already exists
