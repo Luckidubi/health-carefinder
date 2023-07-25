@@ -7,7 +7,6 @@ export const GET = async (
 ) => {
   try {
     await dbConnect();
-    console.log(params);
     const userProfile = await Users.findOne({ userId: params.id }).populate(
       "userId"
     );

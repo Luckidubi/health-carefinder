@@ -59,9 +59,7 @@ const ProfileForm = () => {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
     updateProfile(values);
-    toast({
-      title: "Profile saved!",
-    });
+    
   }
 
   const updateProfile = async (data: z.infer<typeof formSchema>) => {
