@@ -1,11 +1,13 @@
-import ViewHospital from '@/components/ViewHospital'
+'use-client'
+import ViewHospital from "@/components/ViewHospital";
 
-const page = () => {
+const page = ({ params }: { params: { id: string } }) => {
+  const { id } = params;
   return (
-    <div className='py-20 max-width'>
-<ViewHospital />
+    <div className="py-20 max-width">
+      <ViewHospital id={id} />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;

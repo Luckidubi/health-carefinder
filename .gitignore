@@ -6,6 +6,7 @@
 /.pnp
 .pnp.js
 
+
 # testing
 /coverage
 
@@ -20,6 +21,7 @@
 # misc
 .DS_Store
 *.pem
+.vscode
 
 # debug
 npm-debug.log*

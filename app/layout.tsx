@@ -1,5 +1,9 @@
 import Navbar from "@/components/Navbar";
 import "./globals.css";
+import "leaflet/dist/leaflet.css";
+import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
+
+
 import { Inter } from "next/font/google";
 import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/toaster";
