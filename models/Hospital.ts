@@ -42,6 +42,10 @@ const HospitalSchema = new Schema<HospitalProps>({
   latitude: String,
   longitude: String,
   place_id: String,
+  content: {
+    type: String,
+
+  }
 });
 
 export interface HospitalProps extends Document {
@@ -58,6 +62,7 @@ export interface HospitalProps extends Document {
   longitude: string;
   place_id: string;
   road: string;
+  content: string;
 }
 
 const Hospital = models.Hospital || model("Hospital", HospitalSchema);

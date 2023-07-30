@@ -16,6 +16,10 @@
   @apply max-w-[1440px] mx-auto;
 }
 
+:root{
+  height: 100%;
+}
+
 .padding-x {
   @apply sm:px-16 px-6;
 }

@@ -50,7 +50,6 @@ export function extractLocationData(data: any): HospitalItemProps[] {
     return {
       display_name,
       address,
-
       lat,
       lon,
       place_id,
@@ -58,6 +57,7 @@ export function extractLocationData(data: any): HospitalItemProps[] {
     };
   });
 }
+
 export async function fetchHospitals(
   latitude: number,
   longitude: number,

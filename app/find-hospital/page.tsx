@@ -4,7 +4,7 @@ import SearchInput from "@/components/SearchInput";
 import ShowMore from "@/components/ShowMore";
 import StateComboBox from "@/components/StateComboBox";
 import { Button } from "@/components/ui/button";
-import { toast, useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 
 import {
   HospitalItemProps,
@@ -208,7 +208,7 @@ const Page = () => {
         ) : (
           <div>
             <h4 className="pl-12 text-black text-[20px] sm:text-[30px] font-medium leading-10">
-              No Hospitals Nearby
+              Search Hospitals Nearby
             </h4>
           </div>
         )}
