@@ -14,6 +14,8 @@ import {
 } from "firebase/auth";
 import { toast } from "@/components/ui/use-toast";
 import { useEffect } from "react";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import { useUser } from "@/hooks";
 
 interface SignInResult {
   user: User | null;
@@ -24,6 +26,25 @@ export function AuthWrapper(props: any) {
   const auth = getAuth(app);
   return <AuthProvider sdk={auth}>{props.children}</AuthProvider>;
 }
+
+export const AdminWrapper = ({
+  children,
+  fallback,
+}: React.PropsWithChildren<{ fallback: JSX.Element }>): JSX.Element => {
+  const { status, data: signInCheckResult } = useSigninCheck();
+  const id = signInCheckResult?.user?.uid;
+  const { user }: any = useUser(id || "");
+  if (!children) {
+    throw new Error("Children must be provided");
+  }
+  if (status === "loading") {
+    return <LoadingSpinner />;
+  } else if (user?.role === "admin") {
+    return children as JSX.Element;
+  }
+
+  return fallback;
+};
 
 export function AuthGuard(
   props: React.PropsWithChildren<{ fallback: JSX.Element }>

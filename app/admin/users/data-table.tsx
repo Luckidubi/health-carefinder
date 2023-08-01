@@ -31,6 +31,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DataTablePagination } from "@/components/admin/DataTablePagination";
+import { ChevronDownIcon } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -42,11 +43,8 @@ export function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
-   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
-     []
-   );
-   const [columnVisibility, setColumnVisibility] =
-    useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const table = useReactTable({
     data,
     columns,
@@ -69,7 +67,9 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter Users..."
-          value={(table.getColumn("username")?.getFilterValue() as string) ?? ""}
+          value={
+            (table.getColumn("username")?.getFilterValue() as string) ?? ""
+          }
           onChange={(event) =>
             table.getColumn("username")?.setFilterValue(event.target.value)
           }
@@ -78,7 +78,7 @@ export function DataTable<TData, TValue>({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
-              Columns
+              Columns <ChevronDownIcon size={14} className="ml-2" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -102,7 +102,7 @@ export function DataTable<TData, TValue>({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="rounded-md border ">
+      <div className="rounded-md border mb-4">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -153,7 +153,6 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
       <DataTablePagination table={table} />
-
     </div>
   );
 }
