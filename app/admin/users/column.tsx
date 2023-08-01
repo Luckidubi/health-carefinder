@@ -30,7 +30,7 @@ const handleDeleteUser = async (user: UserProps) => {
       });
       if (res.status === 200) {
         alert("User deleted successfully");
-       
+       mutate("/api/users")
       }
     } catch (error) {
       console.log(error);

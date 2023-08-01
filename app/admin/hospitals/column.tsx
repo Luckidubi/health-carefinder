@@ -5,24 +5,30 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { HospitalProps } from "@/models/Hospital";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal, ArrowUpDown } from "lucide-react";
+import Link from "next/link";
+import { mutate } from "swr";
 
+const handleDeleteHospital = async (hospital: HospitalProps) => {
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-//  name: string;
-//  address: string;
-//  phone: string;
-//  email: string;
-//  state: string;
-//  postalcode: string;
-//  photo: string;
-//  city: string;
-//  country: string;
-//  latitude: string;
-//  longitude: string;
-//  place_id: string;
-//  road: string;
-//  content: string;
+  const hasConfirmed = confirm(
+    "Are you sure you want to delete this hospital?"
+  );
+
+  if (hasConfirmed) {
+    try {
+      const res = await fetch(`/api/hospitals/${hospital.place_id}`, {
+        method: "DELETE",
+      });
+      if (res.status === 200) {
+        alert("Hospital deleted successfully");
+        mutate('/api/hospitals')
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Failed to delete Hospital");
+    }
+  }
+};
 
 export const columns: ColumnDef<HospitalProps>[] = [
   {
@@ -112,9 +118,15 @@ export const columns: ColumnDef<HospitalProps>[] = [
               Copy hospital ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View hospital</DropdownMenuItem>
-            <DropdownMenuItem>Edit hospital</DropdownMenuItem>
-            <DropdownMenuItem> Delete hospital</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={`/find-hospital/${hospital.place_id}`}>View hospital</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={`/admin/edit-hospital/${hospital.place_id}`}>
+                Edit hospital
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleDeleteHospital(hospital)}> Delete hospital</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
