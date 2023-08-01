@@ -15,7 +15,7 @@ export default function LibraryLayout({
 }) {
   return (
     <>
-      <section className="py-12 max-width relative ">
+      <section className="py-12 max-width relative overflow-x-hidden">
         <div className="grid grid-cols-4 gap-6 md:grid-cols-12 lg:grid-cols-12">
           <div className="sidebar hidden lg:block col-span-4 lg:col-span-3">
             <AdminSidebar />
@@ -26,7 +26,7 @@ export default function LibraryLayout({
               <StorageWrapper>{children}</StorageWrapper>
             </AuthGuard>
           </div>
-          <div className="col-span-2 md:col-span-2 hidden md:block w-full">
+          <div className="col-span-2 md:col-span-2 hidden md:block ">
             <div className="flex-col flex-between absolute top-5 right-12 xl:right-36">
               <UserAvatar className="w-20 h-20 pb-2  " />
               <Badge>ADMIN</Badge>

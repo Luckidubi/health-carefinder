@@ -27,7 +27,7 @@ export const PATCH = async (
   req: Request,
   { params }: { params: { id: string } }
 ) => {
-  const { fullname, email, address } = await req.json();
+  const { fullname, email, address, role, photo } = await req.json();
   try {
     await dbConnect();
     console.log(params);
@@ -40,6 +40,8 @@ export const PATCH = async (
     existingProfile.username = fullname;
     existingProfile.email = email;
     existingProfile.address = address;
+    existingProfile.role = role
+    existingProfile.photo = photo
 
     await existingProfile.save();
 
@@ -47,5 +49,17 @@ export const PATCH = async (
   } catch (error) {
     console.log(error);
     return new Response("Failed to update user profile", { status: 500 });
+  }
+};
+
+export const DELETE = async (req: Request, { params }: any) => {
+  try {
+    await dbConnect();
+    console.log("paramsid", params);
+
+    await Users.deleteOne({userId: params.id});
+    return new Response("User deleted successfully", { status: 200 });
+  } catch (error) {
+    return new Response("Failed to delete User", { status: 500 });
   }
 };

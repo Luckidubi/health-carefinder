@@ -1,7 +1,8 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import Papa from "papaparse";
-import { LibraryProps } from "@/models/Library";
+import { UserProps } from "@/models/Users";
+
 export interface HospitalItemProps {
   display_name: string;
 
@@ -122,3 +123,4 @@ export const handleShare = async (id: string) => {
     alert("Shareable link:\n" + shareableLink);
   }
 };
+

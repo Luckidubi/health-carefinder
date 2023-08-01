@@ -1,4 +1,4 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models, Document } from "mongoose";
 
 const UserSchema = new Schema({
   userId: {
@@ -32,6 +32,15 @@ const UserSchema = new Schema({
 
   },
 });
+
+export interface UserProps extends Document {
+  userId: string;
+  email: string;
+  username: string;
+  photo: string;
+  address: string;
+  role: string;
+}
 
 const User = models.User || model("User", UserSchema);
 

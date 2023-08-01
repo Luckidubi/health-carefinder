@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useStorageTask, useStorage, useStorageDownloadURL } from "reactfire";
 import type {
