@@ -6,9 +6,9 @@ const EditUser = ({ params }: { params: { id: string } }) => {
   return (
     <div className="flex flex-col py-8 flex-center">
       <h2 className="text-blue-900 text-[28px] font-bold leading-10 uppercase">
-        Profile Details
+       Update Profile Details
       </h2>
-      <div className="lg:w-full w-[300px] py-3">
+      <div className="lg:w-full  py-3">
         <UserForm id={id} />
       </div>
     </div>
