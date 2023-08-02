@@ -16,9 +16,7 @@ const fetchDashboardData = async () => {
 
     const activeUsers = await User.countDocuments();
 
-
     const numberOfHospitals = await Hospital.countDocuments();
-
 
     const numberOfLibrariesSaved = await Library.countDocuments();
 
@@ -34,12 +32,41 @@ const fetchDashboardData = async () => {
   }
 };
 
+
+const fetchInsightsData = async () => {
+  try {
+    const data = await Hospital.aggregate([
+      {
+        $group: {
+          _id: "$state",
+          total: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          state: "$_id",
+          total: 1,
+          _id: 0,
+        },
+      },
+    ]);
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching insights data:", error);
+    throw error;
+  }
+};
+
 const AdminPage = async () => {
 
   const data = await fetchDashboardData();
 
+  const insightData = await fetchInsightsData()
+
+
   return (
-    <div className="flex flex-col space-y-4 pt-4">
+    <div className="flex flex-col space-y-4 pt-6">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-9 space-y-4">
         <Card className="col-span-3">
           <CardHeader className="flex flex-row items-center justify-between  space-y-0 pb-2">
@@ -92,7 +119,7 @@ const AdminPage = async () => {
         </Card>
         <Card className="col-span-3">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Libraries</CardTitle>
+            <CardTitle className="text-sm font-medium">Saved Libraries</CardTitle>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -120,7 +147,7 @@ const AdminPage = async () => {
             <CardTitle>Overview</CardTitle>
           </CardHeader>
           <CardContent className="pl-2">
-            <Overview />
+            <Overview data={insightData} />
           </CardContent>
         </Card>
         <Card className="col-span-3">

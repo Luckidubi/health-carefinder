@@ -25,7 +25,7 @@ const Footer = () => {
                     42, Sunrise Avenue, <br />
                     New Haven, Enugu
                     <br />
-                    +2349754747474
+                    +2347089951617
                   </p>
                 </li>
               </ul>
@@ -43,7 +43,7 @@ const Footer = () => {
               <ul>
                 <li className="mb-2 leading-6">
                   <Link
-                    href="#"
+                    href="/"
                     className="transition-colors duration-300 hover:text-blue-900 focus:text-blue-600"
                   >
                     About us
@@ -58,14 +58,7 @@ const Footer = () => {
                     Blog
                   </Link>
                 </li>
-                <li className="mb-2 leading-6">
-                  <Link
-                    href="#"
-                    className="transition-colors duration-300 hover:text-blue-900 focus:text-blue-600"
-                  >
-                    Events
-                  </Link>
-                </li>
+                
               </ul>
             </nav>
             <nav
@@ -78,7 +71,7 @@ const Footer = () => {
               <ul>
                 <li className="mb-2 leading-6">
                   <Link
-                    href="#"
+                    href="/profile"
                     className="transition-colors duration-300 hover:text-blue-900 focus:text-blue-600"
                   >
                     My Account
@@ -86,20 +79,13 @@ const Footer = () => {
                 </li>
                 <li className="mb-2 leading-6">
                   <Link
-                    href="#"
+                    href="/library"
                     className="transition-colors duration-300 hover:text-blue-900 focus:text-blue-600"
                   >
                     Library
                   </Link>
                 </li>
-                <li className="mb-2 leading-6">
-                  <Link
-                    href="#"
-                    className="transition-colors duration-300 hover:text-blue-900 focus:text-blue-600"
-                  >
-                    Book an Appointment
-                  </Link>
-                </li>
+
               </ul>
             </nav>
           </div>
