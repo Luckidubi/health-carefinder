@@ -7,8 +7,37 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import Hospital from "@/models/Hospital";
+import Library from "@/models/Library";
+import User from "@/models/Users";
 
-const AdminPage = () => {
+const fetchDashboardData = async () => {
+  try {
+
+    const activeUsers = await User.countDocuments();
+
+
+    const numberOfHospitals = await Hospital.countDocuments();
+
+
+    const numberOfLibrariesSaved = await Library.countDocuments();
+
+
+    return {
+      activeUsers,
+      numberOfHospitals,
+      numberOfLibrariesSaved,
+    };
+  } catch (error) {
+    console.error("Error fetching dashboard data:", error);
+    throw error;
+  }
+};
+
+const AdminPage = async () => {
+
+  const data = await fetchDashboardData();
+
   return (
     <div className="flex flex-col space-y-4 pt-4">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-9 space-y-4">
@@ -31,15 +60,15 @@ const AdminPage = () => {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+2350</div>
+            <div className="text-2xl font-bold">+{data.activeUsers}</div>
             <p className="text-xs text-muted-foreground">
-              +180.1% from last month
+
             </p>
           </CardContent>
         </Card>
         <Card className="col-span-3">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Sales</CardTitle>
+            <CardTitle className="text-sm font-medium">Total Hospitals</CardTitle>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -55,15 +84,15 @@ const AdminPage = () => {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+12,234</div>
-            <p className="text-xs text-muted-foreground">
-              +19% from last month
+            <div className="text-2xl font-bold">+{data.numberOfHospitals}</div>
+            <p className="text-xs ">
+
             </p>
           </CardContent>
         </Card>
         <Card className="col-span-3">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Now</CardTitle>
+            <CardTitle className="text-sm font-medium">Libraries</CardTitle>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -78,9 +107,9 @@ const AdminPage = () => {
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+573</div>
-            <p className="text-xs text-muted-foreground">
-              +201 since last hour
+            <div className="text-2xl font-bold">+{data.numberOfLibrariesSaved}</div>
+            <p className="text-xs ">
+
             </p>
           </CardContent>
         </Card>
@@ -96,8 +125,8 @@ const AdminPage = () => {
         </Card>
         <Card className="col-span-3">
           <CardHeader>
-            <CardTitle>Recent Sales</CardTitle>
-            <CardDescription>You made 265 sales this month.</CardDescription>
+            <CardTitle>Recent Users</CardTitle>
+            <CardDescription></CardDescription>
           </CardHeader>
           <CardContent>
             <RecentUsers />
