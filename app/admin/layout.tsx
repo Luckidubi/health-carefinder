@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { AdminWrapper, AuthGuard } from "@/lib/firebase/auth/auth";
 import { StorageWrapper } from "@/lib/firebase/storage/Storage";
 
-export default function LibraryLayout({
+export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -25,8 +25,14 @@ export default function LibraryLayout({
                   <AdminSidebar />
                 </div>
                 <div className="col-span-4 md:col-span-10 lg:col-span-9 max-w-[600px] xl:max-w-[700px] px-4 overflow-auto">
+                  <div className="flex flex-col">
+
                   <SearchInput />
+                  <div className="flex-grow overflow-y-auto">
+
                   {children}
+                  </div>
+                  </div>
                 </div>
                 <div className="col-span-2 md:col-span-2 hidden md:block ">
                   <div className="flex-col flex-between absolute top-5 right-12 xl:right-36">
