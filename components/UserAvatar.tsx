@@ -15,7 +15,7 @@ const UserAvatar = ({ className }: UserAvatarProps) => {
    const {user }: any  = useUser(id || "");
    const name =user?.username || "";
    const photo = user?.photo || "";
-    const fallbackLetter = getFallbackLetter(name );
+  const fallbackLetter = getFallbackLetter(name );
 
   return (
     <Avatar className={className}>

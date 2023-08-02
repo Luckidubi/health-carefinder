@@ -1,12 +1,11 @@
 "use client";
 import { useUser } from "@/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect} from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useSigninCheck } from "reactfire";
+
 import * as z from "zod";
-import LoadingSpinner from "./LoadingSpinner";
-import { Button } from "./ui/button";
+
 import {
   Form,
   FormControl,
@@ -15,10 +14,23 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
-import { Input } from "./ui/input";
-import { useToast } from "./ui/use-toast";
-import ImageUploadButton from "./admin/ImageUploadButton";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import LoadingSpinner from "../LoadingSpinner";
+import { Button } from "../ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import ImageUploadButton from "./ImageUploadButton";
+
+interface UserFormProps {
+  id: string;
+}
 
 const formSchema = z.object({
   fullname: z
@@ -34,12 +46,16 @@ const formSchema = z.object({
       message: "Enter full address",
     })
     .max(100),
-    photo: z.string()
+  role: z
+    .string()
+    .min(4, {
+      message: "role must not be less than 4 characters",
+    })
+    .max(5),
+  photo: z.string(),
 });
-const ProfileForm = () => {
-  const { data: signinResult } = useSigninCheck();
-  const user = signinResult?.user;
-  const { user: profile, isLoading }: any = useUser(user?.uid || "");
+const UserForm: React.FC<UserFormProps> = ({id}) => {
+  const { user: profile, isLoading }: any = useUser(id || "");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,7 +63,8 @@ const ProfileForm = () => {
       fullname: profile?.username || "",
       email: profile?.email || "",
       address: profile?.address || "",
-      photo: profile?.photo || ""
+      role: profile?.role || "",
+      photo: profile?.photo || "",
     },
   });
 
@@ -57,21 +74,21 @@ const ProfileForm = () => {
     form.setValue("fullname", profile?.username || "");
     form.setValue("email", profile?.email || "");
     form.setValue("address", profile?.address || "");
+    form.setValue("role", profile?.role || "");
     form.setValue("photo", profile?.photo || "");
   }, [profile, form]);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
     updateProfile(values);
-
   }
-   const handleImageUpload = (imageUrl: string) => {
-     form.setValue("photo", imageUrl); // Set the image URL in the form data
-   };
+  const handleImageUpload = (imageUrl: string) => {
+    form.setValue("photo", imageUrl); // Set the image URL in the form data
+  };
 
   const updateProfile = async (data: z.infer<typeof formSchema>) => {
     try {
-      const res = await fetch(`/api/users/${user?.uid}`, {
+      const res = await fetch(`/api/users/${id.toString()}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -81,10 +98,10 @@ const ProfileForm = () => {
 
       if (res.ok) {
         toast({
-          title: "Profile updated successfully!",
+          title: "User Profile updated successfully!",
         });
       } else {
-        throw new Error("Failed to update profile");
+        throw new Error("Failed to update user profile");
       }
     } catch (error: any) {
       console.log(error);
@@ -152,6 +169,31 @@ const ProfileForm = () => {
           />
           <FormField
             control={form.control}
+            name="role"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Role</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select User role" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="admin">Admin</SelectItem>
+                    <SelectItem value="user">User</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormDescription>Select User Role</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
             name="photo"
             render={({ field }) => (
               <FormItem>
@@ -179,4 +221,4 @@ const ProfileForm = () => {
   );
 };
 
-export default ProfileForm;
+export default UserForm;

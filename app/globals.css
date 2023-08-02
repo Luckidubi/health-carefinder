@@ -16,6 +16,10 @@
   @apply max-w-[1440px] mx-auto;
 }
 
+:root{
+  height: 100%;
+}
+
 .padding-x {
   @apply sm:px-16 px-6;
 }
@@ -78,4 +82,8 @@ label {
 
 .input-header {
   @apply   text-[14px] sm:text-[20px] font-medium text-center leading-10 text-black
+}
+
+.navbar-links{
+  @apply flex lg:text-[16px] font-medium leading-10 items-center gap-2 py-4 text-black transition-colors duration-300 hover:text-blue-900 focus:bg-blue-50 focus:outline-none focus-visible:outline-none lg:px-8
 }

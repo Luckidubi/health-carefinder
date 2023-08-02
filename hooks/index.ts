@@ -1,8 +1,7 @@
-
 import { HospitalItemProps } from "@/lib/utils";
 import { HospitalProps } from "@/models/Hospital";
-import { useEffect, useState, } from "react";
-import useSWR, { Fetcher, mutate } from "swr";
+import { useEffect, useState } from "react";
+import useSWR, { Fetcher, mutate, useSWRConfig } from "swr";
 
 const fetcher: Fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -16,6 +15,16 @@ export function useUser(id: string) {
   };
 }
 
+export function useGetUsers() {
+  const { data, error, isLoading } = useSWR("/api/users", fetcher);
+
+  return {
+    users: data,
+    isLoading,
+    isError: error,
+  }
+}
+
 export function useLibrary(id: string) {
   const { data, error, isLoading } = useSWR(`/api/library/${id}`, fetcher);
 
@@ -23,7 +32,7 @@ export function useLibrary(id: string) {
     library: data,
     isLoading,
     isError: error,
-  }
+  };
 }
 
 export function useSearchHospitals(searchValue: string) {
@@ -68,20 +77,13 @@ const createHospital = async (extractedLocationData: HospitalItemProps[]) => {
 };
 
 export const useCreateHospital = () => {
-  const { data, error, isValidating } = useSWR(null, createHospital, {
-    revalidateOnFocus: false,
-    shouldRetryOnError: false,
-    onSuccess: () => {
-      // Invalidate the SWR cache after a successful mutation
-      mutate("/api/hospitals/new");
-    },
-  });
-
-  const isLoading = isValidating;
+  const { mutate } = useSWRConfig();
 
   const addHospital = async (extractedLocationData: HospitalItemProps[]) => {
     try {
       await createHospital(extractedLocationData);
+      // On successful creation, invalidate the SWR cache
+      mutate("/api/hospitals/new");
     } catch (error) {
       console.error("Error adding hospital:", error);
       throw error;
@@ -90,9 +92,6 @@ export const useCreateHospital = () => {
 
   return {
     addHospital,
-    isLoading,
-    error,
-    data,
   };
 };
 

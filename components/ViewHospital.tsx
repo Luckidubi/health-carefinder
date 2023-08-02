@@ -82,7 +82,7 @@ const ViewHospital = ({ id }: { id: string }) => {
       <div className="flex flex-col md:flex-row gap-8 xl:gap-20">
         <div className="max-w-[700px] max-h-[700px] flex-1 lg:flex-[1.5]">
           <Image
-            src="/Rectangle 57.png"
+            src={hospitalDetail.photo || "/Rectangle 57.png"}
             alt="hospital image"
             width={318}
             height={401}
@@ -93,7 +93,7 @@ const ViewHospital = ({ id }: { id: string }) => {
           <div className="overflow-hidden border-none px-3  shadow-md rounded-xl bg-zinc-200 flex flex-col gap-6 flex-center py-6">
             <div className="view-hospital__card-div">{hospitalDetail.name}</div>
             <div className="view-hospital__card-div">
-              {`${hospitalDetail.road || ""}, ${hospitalDetail.city || ""}, ${
+              {`${hospitalDetail.road || ""} ${hospitalDetail.city || ""}, ${
                 hospitalDetail.state || ""
               }`}
             </div>

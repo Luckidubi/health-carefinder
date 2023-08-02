@@ -4,6 +4,7 @@ import Sidebar from "@/components/Sidebar";
 
 import UserAvatar from "@/components/UserAvatar";
 import { AuthGuard } from "@/lib/firebase/auth/auth";
+import { StorageWrapper } from "@/lib/firebase/storage/Storage";
 
 export default function ProfileLayout({
   children,
@@ -21,7 +22,7 @@ export default function ProfileLayout({
             <div className="col-span-4 md:col-span-6 max-w-[600px] px-4">
               <SearchInput />
 
-              {children}
+              <StorageWrapper>{children}</StorageWrapper>
             </div>
             <div className="col-span-4 lg:col-span-3 hidden md:block">
               <UserAvatar className="w-20 h-20 absolute top-5 right-12 xl:right-36" />

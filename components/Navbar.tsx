@@ -10,11 +10,14 @@ import { useAuth, useSigninCheck } from "reactfire";
 
 import { Button } from "./ui/button";
 import UserAvatar from "./UserAvatar";
+import { useUser } from "@/hooks";
 
 export default function Navbar() {
   const [isToggleOpen, setIsToggleOpen] = useState(false);
   const pathname = usePathname();
   const { status, data: signinResult } = useSigninCheck();
+   const id = signinResult?.user?.uid;
+   const { user }: any = useUser(id || "");
   const auth = useAuth();
 
   const handleScroll = () => {
@@ -24,6 +27,46 @@ export default function Navbar() {
       nextSection.scrollIntoView({ behavior: "smooth" });
     }
   };
+
+  const AdminMenu = () => {
+
+    return (
+      <>
+        <li role="none" className="flex items-stretch ">
+          <Link
+            className="navbar-links"
+            href="/admin"
+          >
+            <span>Dashboard</span>
+          </Link>
+        </li>
+        <li role="none" className="flex items-stretch ">
+          <Link
+            className="navbar-links"
+            href="/admin/create-hospital"
+          >
+            <span>Create Hospital</span>
+          </Link>
+        </li>
+        <li role="none" className="flex items-stretch lg:hidden">
+          <Link
+            className="navbar-links"
+            href="/admin/hospitals"
+          >
+            <span>Hospitals</span>
+          </Link>
+        </li>
+        <li role="none" className="flex items-stretch lg:hidden">
+          <Link
+            className="navbar-links"
+            href="/admin/users"
+          >
+            <span>Users</span>
+          </Link>
+        </li>
+      </>
+    );
+  }
 
   return (
     <>
@@ -89,7 +132,7 @@ export default function Navbar() {
             >
               <li role="none" className="flex items-stretch">
                 <Link
-                  className="flex lg:text-[20px] font-medium leading-10 items-center gap-2 py-4 text-black transition-colors duration-300 hover:text-blue-900 focus:bg-blue-50 focus:outline-none focus-visible:outline-none lg:px-8"
+                  className="navbar-links"
                   href="/"
                 >
                   <span>Home</span>
@@ -102,7 +145,7 @@ export default function Navbar() {
                 }`}
               >
                 <Link
-                  className="flex lg:text-[20px] font-medium leading-10 items-center gap-2 py-4 text-black transition-colors duration-300 hover:text-blue-900 focus:bg-blue-50 focus:outline-none focus-visible:outline-none lg:px-8"
+                  className="navbar-links"
                   href=""
                   onClick={handleScroll}
                 >
@@ -111,7 +154,7 @@ export default function Navbar() {
               </li>
               <li role="none" className="flex items-stretch">
                 <Link
-                  className="flex lg:text-[20px] font-medium leading-10 items-center gap-2 py-4 text-black transition-colors duration-300 hover:text-blue-900 focus:bg-blue-50 focus:outline-none focus-visible:outline-none lg:px-8"
+                  className="navbar-links"
                   href="/find-hospital"
                 >
                   Find Hospital
@@ -119,12 +162,15 @@ export default function Navbar() {
               </li>
               <li role="none" className="flex items-stretch lg:hidden">
                 <Link
-                  className="flex lg:text-[20px] font-medium leading-10 items-center gap-2 py-4 text-black transition-colors duration-300 hover:text-blue-900 focus:bg-blue-50 focus:outline-none focus-visible:outline-none lg:px-8"
+                  className="navbar-links"
                   href="/library"
                 >
                   <span>Library</span>
                 </Link>
               </li>
+              {
+                user?.role === "admin" && <AdminMenu />
+              }
 
               {!signinResult?.signedIn && (
                 <li role="none" className="flex items-stretch sm:hidden">
